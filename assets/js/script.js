@@ -70,12 +70,34 @@ form.addEventListener('submit', async (e) => {
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    alert('Thank you for your message! I will get back to you soon.');
     form.reset();
     
     submitButton.textContent = originalText;
     submitButton.disabled = false;
+    showNotification('Thank you for your message! I will get back to you soon.', 'success');
 });
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification', type);
+    
+    const icon = document.createElement('i');
+    icon.classList.add('fas', type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle');
+    
+    const messageText = document.createElement('span');
+    messageText.textContent = message;
+    
+    notification.appendChild(icon);
+    notification.appendChild(messageText);
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.classList.add('hiding');
+        notification.addEventListener('animationend', () => {
+            notification.remove();
+        });
+    }, 5000);
+}
 
 // Register Service Worker
 if ('serviceWorker' in navigator) {

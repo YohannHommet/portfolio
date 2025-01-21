@@ -6,7 +6,7 @@
 @import 'components/_buttons.css';
 @import 'components/_cards.css';
 @import 'components/_social.css';
-@import 'components/_stats.css';
+@import 'components/_notifications.css';
 
 /* Layout */
 @import 'layout/_navbar.css';
