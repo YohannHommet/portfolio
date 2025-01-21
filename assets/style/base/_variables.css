@@ -1,0 +1,12 @@
+:root {
+  --background-color: #ffffff;
+  --text-color: #1a1a1a;
+  --text-color-secondary: #666666;
+  --primary-color: #00a8e8;
+  --accent-color: #00a8e8;
+  --accent-color-secondary: #7928ca;
+  --surface-color: rgba(0, 0, 0, 0.03);
+  --card-background: rgba(255, 255, 255, 0.8);
+  --navbar-bg-scrolled: rgba(255, 255, 255, 0.95);
+  --border-color: rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,60 @@
+.skill-card {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.skill-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+}
+
+.skill-card i,
+.skill-card [class^="devicon-"] {
+  color: var(--text-color-secondary);
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.skill-card:hover i,
+.skill-card:hover [class^="devicon-"] {
+  transform: translateY(-5px);
+}
+
+/* Specific color changes for each icon */
+.skill-card:has(.fa-vuejs):hover i {
+  color: #42b883;
+}
+
+.skill-card:has(.fa-laravel):hover i {
+  color: #ff2d20;
+}
+
+.skill-card:has(.fa-js):hover i {
+  color: #f7df1e;
+}
+
+.skill-card:has(.fa-php):hover i {
+  color: #777bb4;
+}
+
+.skill-card:has(.devicon-typescript-plain):hover [class^="devicon-"] {
+  color: #3178c6;
+}
+
+.skill-card:has(.devicon-bash-plain):hover [class^="devicon-"] {
+  color: #4eaa25;
+}
+
+.skill-card h3 {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
