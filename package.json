@@ -1,5 +1,16 @@
 {
   "name": "personal-website",
   "version": "1.0.0",
-  "description": "Yohann's Personal Website",
+  "description": "Yohann's Personal Portfolio Website",
+  "scripts": {
+    "start": "live-server",
+    "build": "echo 'No build step defined'",
+    "deploy": "netlify deploy"
+  },
+  "author": "Yohann Hommet",
+  "license": "Personal Use Only",
+  "main": "index.html",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
 }
