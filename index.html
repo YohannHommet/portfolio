@@ -7,8 +7,7 @@
 
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+  <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   <link rel="stylesheet" href="assets/style/styles.css">
 
   <meta name="description"
@@ -44,15 +43,16 @@
 <body>
   <nav class="navbar">
     <div class="navbar-content">
-      <a href="#" class="logo">YH</a>
+      <a href="#home" class="logo">YH</a>
       <div class="nav-links">
         <a href="#home" class="nav-link">Home</a>
         <a href="#about" class="nav-link">About</a>
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#contact" class="nav-link">Contact</a>
-        <span id="theme-toggle" aria-label="Toggle theme">
-          <i class="fas fa-moon"></i>
-        </span>
+        <div id="theme-toggle" aria-label="Toggle theme">
+          <img src="assets/svg/sun.svg" alt="Light mode" class="theme-icon" id="light-icon" style="display: none;">
+          <img src="assets/svg/moon.svg" alt="Dark mode" class="theme-icon" id="dark-icon">
+        </div>
       </div>
     </div>
   </nav>
@@ -75,15 +75,15 @@
       <div class="hero-social">
         <a href="https://github.com/YohannHommet" target="_blank" class="social-link" title="GitHub" aria-label="GitHub"
           role="button">
-          <i class="fab fa-github"></i>
+          <i class="devicon-github-plain"></i>
         </a>
         <a href="https://linkedin.com/in/yohann-hommet" target="_blank" class="social-link" title="LinkedIn"
           aria-label="LinkedIn" role="button">
-          <i class="fab fa-linkedin"></i>
+          <i class="devicon-linkedin-plain"></i>
         </a>
         <a href="mailto:yohann.hommet@outlook.com" class="social-link" title="Email me" aria-label="Email me"
           role="button">
-          <i class="fas fa-envelope"></i>
+          <i class="devicon-maya-plain"></i>
         </a>
       </div>
     </div>
@@ -109,19 +109,19 @@
       </div>
       <div class="skills-grid">
         <div class="skill-card">
-          <i class="fab fa-vuejs"></i>
+          <i class="devicon-vuejs-plain"></i>
           <h3>Vue.js</h3>
         </div>
         <div class="skill-card">
-          <i class="fab fa-laravel"></i>
+          <i class="devicon-laravel-plain"></i>
           <h3>Laravel</h3>
         </div>
         <div class="skill-card">
-          <i class="fab fa-js"></i>
+          <i class="devicon-javascript-plain"></i>
           <h3>JavaScript</h3>
         </div>
         <div class="skill-card">
-          <i class="fab fa-php"></i>
+          <i class="devicon-php-plain"></i>
           <h3>PHP</h3>
         </div>
         <div class="skill-card">
@@ -131,6 +131,14 @@
         <div class="skill-card">
           <i class="devicon-bash-plain"></i>
           <h3>Bash</h3>
+        </div>
+        <div class="skill-card">
+          <i class="devicon-docker-plain"></i>
+          <h3>Docker</h3>
+        </div>
+        <div class="skill-card">
+          <i class="devicon-ubuntu-plain"></i>
+          <h3>Ubuntu</h3>
         </div>
       </div>
     </section>
@@ -196,7 +204,7 @@
           <div class="form-group">
             <textarea id="message" name="message" required placeholder="Your Message"></textarea>
           </div>
-          <button type="submit">Send Message</button>
+          <button class="btn btn-primary btn-primary--block" type="submit">Send Message</button>
         </form>
       </div>
     </section>
@@ -204,8 +212,10 @@
 
   <footer class="footer">
     <div class="footer-container">
-      <a href="#" class="footer-logo">YH</a>
-      <p>&copy; 2025 Yohann Hommet. All rights reserved.</p>
+      <a href="#home" class="logo">YH</a>
+      <p class="footer-copyright">&copy;
+        <script>document.write(new Date().getFullYear())</script> Yohann Hommet. All rights reserved.
+      </p>
     </div>
   </footer>
 

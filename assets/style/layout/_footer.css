@@ -29,14 +29,8 @@
   align-items: center;
 }
 
-.footer-logo {
-  margin-bottom: 1rem;
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-secondary) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.footer-copyright {
+  margin-top: 1.5rem;
 }
 
 @media (max-width: 768px) {

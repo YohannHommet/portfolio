@@ -38,15 +38,13 @@
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--text-color);
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.logo:hover {
-  color: var(--accent-color);
 }
 
 .nav-links {
@@ -99,11 +97,11 @@
 #theme-toggle {
   cursor: pointer;
   margin-left: 1rem;
-  font-size: 1rem;
-  color: var(--text-color);
   transition: color 0.3s ease;
 }
 
-#theme-toggle:hover {
-  color: var(--accent-color);
+.theme-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
 }

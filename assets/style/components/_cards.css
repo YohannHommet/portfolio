@@ -13,7 +13,6 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
 }
 
-.skill-card i,
 .skill-card [class^="devicon-"] {
   color: var(--text-color-secondary);
   font-size: 3rem;
@@ -22,25 +21,24 @@
   display: inline-block;
 }
 
-.skill-card:hover i,
 .skill-card:hover [class^="devicon-"] {
   transform: translateY(-5px);
 }
 
 /* Specific color changes for each icon */
-.skill-card:has(.fa-vuejs):hover i {
+.skill-card:has(.devicon-vuejs-plain):hover i {
   color: #42b883;
 }
 
-.skill-card:has(.fa-laravel):hover i {
+.skill-card:has(.devicon-laravel-plain):hover i {
   color: #ff2d20;
 }
 
-.skill-card:has(.fa-js):hover i {
+.skill-card:has(.devicon-javascript-plain):hover i {
   color: #f7df1e;
 }
 
-.skill-card:has(.fa-php):hover i {
+.skill-card:has(.devicon-php-plain):hover i {
   color: #777bb4;
 }
 
@@ -50,6 +48,14 @@
 
 .skill-card:has(.devicon-bash-plain):hover [class^="devicon-"] {
   color: #4eaa25;
+}
+
+.skill-card:has(.devicon-docker-plain):hover [class^="devicon-"] {
+  color: #0db7ed;
+}
+
+.skill-card:has(.devicon-ubuntu-plain):hover [class^="devicon-"] {
+  color: #e95420;
 }
 
 .skill-card h3 {

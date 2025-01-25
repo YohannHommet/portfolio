@@ -117,8 +117,16 @@ themeToggle.addEventListener('click', () => {
 });
 
 function updateToggleIcon(theme) {
-  const icon = themeToggle.querySelector('i');
-  icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  const lightIcon = document.getElementById('light-icon');
+  const darkIcon = document.getElementById('dark-icon');
+  
+  if (theme === 'dark') {
+    lightIcon.style.display = 'block';
+    darkIcon.style.display = 'none';
+  } else {
+    lightIcon.style.display = 'none';
+    darkIcon.style.display = 'block';
+  }
   themeToggle.setAttribute('aria-label', `${theme === 'dark' ? 'Light' : 'Dark'} mode`);
 }
 
