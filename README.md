@@ -2,8 +2,6 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/YohannHommet/portfolio)
 ![GitHub stars](https://img.shields.io/github/stars/YohannHommet/portfolio)
-![GitHub forks](https://img.shields.io/github/forks/YohannHommet/portfolio)
-![GitHub issues](https://img.shields.io/github/issues/YohannHommet/portfolio)
 ![License](https://img.shields.io/badge/license-Personal%20Use%20Only-lightgrey)
 
 Welcome to my personal portfolio website. This project showcases my work, skills, and projects in a modern and interactive way.
@@ -21,7 +19,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/portfolio.git
+   git clone https://github.com/YohannHommet/portfolio.git
    ```
 2. Navigate to the project directory:
    ```bash

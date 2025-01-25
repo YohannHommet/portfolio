@@ -12,30 +12,30 @@
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=80000, immutable"
 
 # Cache favicon files
 [[headers]]
   for = "/assets/favicon/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=80000, immutable"
 
 # Cache webmanifest
 [[headers]]
   for = "/site.webmanifest"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=80000, immutable"
 
 # Cache CSS and JavaScript files
 [[headers]]
   for = "*.css"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=80000, immutable"
 
 [[headers]]
   for = "*.js"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=80000, immutable"
 
 # HTML files should be revalidated
 [[headers]]
