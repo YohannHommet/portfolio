@@ -16,12 +16,12 @@
     content="full stack developer, vue.js developer, laravel developer, web development, Yohann Hommet">
   <meta name="author" content="Yohann Hommet">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yourwebsite.com/">
-  <meta property="og:url" content="https://yourwebsite.com">
+  <link rel="canonical" href="https://yohann-hommet.netlify.app/">
+  <meta property="og:url" content="https://yohann-hommet.netlify.app/">
   <meta property="og:title" content="Yohann Hommet | Full Stack Developer">
   <meta property="og:description"
     content="Yohann's portfolio showcasing skills in full-stack development, including projects and contact information.">
-  <meta property="og:image" content="path/to/your/social-share-image.jpg">
+  <meta property="og:image" content="/assets/favicon/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Favicon tags -->
@@ -49,10 +49,10 @@
         <a href="#about" class="nav-link">About</a>
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#contact" class="nav-link">Contact</a>
-        <div id="theme-toggle" aria-label="Toggle theme">
+        <button id="theme-toggle" aria-label="Toggle theme" type="button">
           <img src="assets/svg/sun.svg" alt="Light mode" class="theme-icon" id="light-icon" style="display: none;">
           <img src="assets/svg/moon.svg" alt="Dark mode" class="theme-icon" id="dark-icon">
-        </div>
+        </button>
       </div>
     </div>
   </nav>
@@ -88,8 +88,8 @@
       </div>
     </div>
     <a href="#about" class="hero-scroll">
-      <span>Scroll to explore</span>
-      <i class="fas fa-chevron-down"></i>
+      <span class="hero-scroll__text">Scroll to explore</span>
+      <span class="hero-scroll__arrow">&#x2193;</span>
     </a>
   </header>
 
@@ -194,7 +194,8 @@
           <span class="section-subtitle">Get in Touch</span>
           <h2>Let's Work Together</h2>
         </div>
-        <form id="contact-form" class="contact-form" netlify>
+        <form id="contact-form" class="contact-form" netlify method="POST">
+          <input type="hidden" name="form-name" value="contact-form">
           <div class="form-group">
             <input type="text" id="name" name="name" required placeholder="Your Name">
           </div>

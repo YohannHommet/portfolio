@@ -90,24 +90,23 @@
   z-index: 2;
 }
 
-.hero-scroll span {
+.hero-scroll__text {
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.5px;
   opacity: 0.8;
 }
 
-.hero-scroll i {
+.hero-scroll__arrow {
   font-size: 1.2rem;
   animation: bounce 2s infinite;
-  color: var(--accent-color);
 }
 
 .hero-scroll:hover {
   color: var(--accent-color);
 }
 
-.hero-scroll:hover span {
+.hero-scroll:hover .hero-scroll__text {
   opacity: 1;
 }
 

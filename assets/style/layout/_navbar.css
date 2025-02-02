@@ -95,6 +95,7 @@
 }
 
 #theme-toggle {
+  all: unset;
   cursor: pointer;
   margin-left: 1rem;
   transition: color 0.3s ease;
