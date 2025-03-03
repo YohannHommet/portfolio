@@ -1,28 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  </noscript>
 
   <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="assets/style/styles.css">
 
   <meta name="description"
-    content="Yohann's portfolio showcasing skills in full-stack development, including projects and contact information.">
+    content="Portfolio de Yohann Hommet, développeur full-stack spécialisé en Vue.js et Laravel. Découvrez mes projets et compétences en développement web.">
   <meta name="keywords"
-    content="full stack developer, vue.js developer, laravel developer, web development, Yohann Hommet">
+    content="développeur full stack, développeur vue.js, développeur laravel, développement web, Yohann Hommet">
   <meta name="author" content="Yohann Hommet">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yohann-hommet.netlify.app/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
   <meta property="og:url" content="https://yohann-hommet.netlify.app/">
-  <meta property="og:title" content="Yohann Hommet | Full Stack Developer">
+  <meta property="og:title" content="Yohann Hommet | Développeur Full Stack">
   <meta property="og:description"
-    content="Yohann's portfolio showcasing skills in full-stack development, including projects and contact information.">
+    content="Portfolio de Yohann Hommet, développeur full-stack spécialisé en Vue.js et Laravel. Découvrez mes projets et compétences en développement web.">
   <meta property="og:image" content="/assets/favicon/og-image.png">
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Yohann Hommet | Développeur Full Stack">
+  <meta name="twitter:description"
+    content="Portfolio de Yohann Hommet, développeur full-stack spécialisé en Vue.js et Laravel. Découvrez mes projets et compétences en développement web.">
+  <meta name="twitter:image" content="/assets/favicon/og-image.png">
 
   <!-- Favicon tags -->
   <link rel="icon" type="image/png" href="/assets/favicon/favicon-96x96.png" sizes="96x96" />
@@ -35,23 +49,30 @@
   <meta name="theme-color" content="#ffffff">
 
   <link rel="preload" href="assets/js/script.js" as="script">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <title>Yohann | Full Stack Developer</title>
+  <title>Yohann Hommet | Développeur Full Stack</title>
 </head>
 
 <body>
-  <nav class="navbar">
+  <a href="#main-content" class="skip-link">Passer au contenu principal</a>
+
+  <nav class="navbar" aria-label="Navigation principale">
     <div class="navbar-content">
-      <a href="#home" class="logo">YH</a>
-      <div class="nav-links">
-        <a href="#home" class="nav-link">Home</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#projects" class="nav-link">Projects</a>
+      <a href="#home" class="logo" aria-label="Accueil">YH</a>
+      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="nav-links"
+        aria-label="Menu de navigation">
+        <span class="sr-only">Menu</span>
+        <span class="menu-icon"></span>
+      </button>
+      <div class="nav-links" id="nav-links">
+        <a href="#home" class="nav-link">Accueil</a>
+        <a href="#about" class="nav-link">À propos</a>
+        <a href="#projects" class="nav-link">Projets</a>
         <a href="#contact" class="nav-link">Contact</a>
-        <button id="theme-toggle" aria-label="Toggle theme" type="button">
-          <img src="assets/svg/sun.svg" alt="Light mode" class="theme-icon" id="light-icon" style="display: none;">
-          <img src="assets/svg/moon.svg" alt="Dark mode" class="theme-icon" id="dark-icon">
+        <button id="theme-toggle" aria-label="Basculer le thème" type="button">
+          <i class="fa-regular fa-sun theme-icon" aria-hidden="true" id="light-icon" alt="Mode clair"></i>
+          <i class="fa-regular fa-moon theme-icon" aria-hidden="true" id="dark-icon" alt="Mode sombre"></i>
         </button>
       </div>
     </div>
@@ -60,162 +81,172 @@
   <header class="hero" id="home">
     <div class="hero-content">
       <div class="hero-text">
-        <span class="hero-greeting">Hi there 👋, I'm</span>
+        <span class="hero-greeting">Bonjour 👋, je suis</span>
         <h1>Yohann Hommet</h1>
-        <p class="hero-title">Full Stack Developer</p>
-        <p class="hero-description">I craft elegant web solutions with Vue.js and Laravel, turning complex problems into
-          beautiful, user-friendly experiences.</p>
+        <p class="hero-title">Développeur Full Stack</p>
+        <p class="hero-description">Je crée des solutions web élégantes avec Vue.js et Laravel, transformant des
+          problèmes complexes en expériences utilisateur belles et conviviales.</p>
         <div class="hero-buttons">
           <a href="#projects" class="btn btn-primary">
-            View My Work
-            <i class="fas fa-arrow-right"></i>
+            Voir mes projets
+            <i class="fa-solid fa-chevron-right hero-buttons__icon" aria-hidden="true"></i>
+          </a>
+          <a href="/assets/documents/cv_yohann_hommet.pdf" class="btn btn-outline" download
+            aria-label="Télécharger mon CV au format PDF">
+            Télécharger CV
+            <svg class="download-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 12L3 7L4.4 5.55L7 8.15V1H9V8.15L11.6 5.55L13 7L8 12ZM2 14V11H4V13H12V11H14V14H2Z"
+                fill="currentColor" />
+            </svg>
           </a>
         </div>
       </div>
       <div class="hero-social">
-        <a href="https://github.com/YohannHommet" target="_blank" class="social-link" title="GitHub" aria-label="GitHub"
-          role="button">
-          <i class="devicon-github-plain"></i>
+        <a href="https://github.com/YohannHommet" target="_blank" rel="noopener noreferrer" class="social-link"
+          title="GitHub" aria-label="Visiter mon profil GitHub">
+          <i class="devicon-github-plain" aria-hidden="true"></i>
         </a>
-        <a href="https://linkedin.com/in/yohann-hommet" target="_blank" class="social-link" title="LinkedIn"
-          aria-label="LinkedIn" role="button">
-          <i class="devicon-linkedin-plain"></i>
+        <a href="https://linkedin.com/in/yohann-hommet" target="_blank" rel="noopener noreferrer" class="social-link"
+          title="LinkedIn" aria-label="Visiter mon profil LinkedIn">
+          <i class="devicon-linkedin-plain" aria-hidden="true"></i>
         </a>
-        <a href="mailto:yohann.hommet@outlook.com" class="social-link" title="Email me" aria-label="Email me"
-          role="button">
-          <i class="devicon-maya-plain"></i>
+        <a href="mailto:yohann.hommet@outlook.com" class="social-link" aria-label="M'envoyer un email">
+          <i class="fas fa-envelope" aria-hidden="true"></i>
         </a>
       </div>
     </div>
-    <a href="#about" class="hero-scroll">
-      <span class="hero-scroll__text">Scroll to explore</span>
-      <span class="hero-scroll__arrow">&#x2193;</span>
+    <a href="#about" class="hero-scroll" aria-label="Défiler vers la section À propos">
+      <span class="hero-scroll__text">Défiler pour explorer</span>
+      <i class="fa-solid fa-chevron-down hero-scroll__arrow" aria-hidden="true"></i>
     </a>
   </header>
 
-  <main>
-    <section id="about" class="section section__about animate-on-scroll">
+  <main id="main-content">
+    <section id="about" class="section section__about animate-on-scroll" aria-labelledby="about-heading">
       <div class="section-container">
         <div class="section-header">
-          <span class="section-subtitle">About Me</span>
-          <h2>Crafting Digital Experiences</h2>
+          <span class="section-subtitle">À propos de moi</span>
+          <h2 id="about-heading">Création d'expériences digitales</h2>
         </div>
         <div class="about-text">
-          <p>I'm a Full Stack Developer specializing in Vue.js and Laravel, passionate about creating elegant and
-            efficient web solutions. With a strong foundation in both front-end and back-end development, I bring ideas
-            to life through clean code and intuitive user experiences.</p>
+          <p>Je suis un développeur Full Stack spécialisé en Vue.js et Laravel, passionné par la création de solutions
+            web élégantes et efficaces. Avec une solide base en développement front-end et back-end, je donne vie aux
+            idées grâce à un code propre et des expériences utilisateur intuitives.</p>
         </div>
-      </div>
       </div>
       <div class="skills-grid">
         <div class="skill-card">
-          <i class="devicon-vuejs-plain"></i>
+          <i class="devicon-vuejs-plain" aria-hidden="true"></i>
           <h3>Vue.js</h3>
         </div>
         <div class="skill-card">
-          <i class="devicon-laravel-plain"></i>
+          <i class="devicon-laravel-plain" aria-hidden="true"></i>
           <h3>Laravel</h3>
         </div>
         <div class="skill-card">
-          <i class="devicon-javascript-plain"></i>
+          <i class="devicon-javascript-plain" aria-hidden="true"></i>
           <h3>JavaScript</h3>
         </div>
         <div class="skill-card">
-          <i class="devicon-php-plain"></i>
+          <i class="devicon-php-plain" aria-hidden="true"></i>
           <h3>PHP</h3>
         </div>
         <div class="skill-card">
-          <i class="devicon-typescript-plain"></i>
+          <i class="devicon-typescript-plain" aria-hidden="true"></i>
           <h3>TypeScript</h3>
         </div>
         <div class="skill-card">
-          <i class="devicon-bash-plain"></i>
+          <i class="devicon-bash-plain" aria-hidden="true"></i>
           <h3>Bash</h3>
         </div>
         <div class="skill-card">
-          <i class="devicon-docker-plain"></i>
+          <i class="devicon-docker-plain" aria-hidden="true"></i>
           <h3>Docker</h3>
         </div>
         <div class="skill-card">
-          <i class="devicon-ubuntu-plain"></i>
+          <i class="devicon-ubuntu-plain" aria-hidden="true"></i>
           <h3>Ubuntu</h3>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="section section__projects animate-on-scroll">
+    <section id="projects" class="section section__projects animate-on-scroll" aria-labelledby="projects-heading">
       <div class="section-container">
         <div class="section-header">
-          <span class="section-subtitle">My Work</span>
-          <h2>Featured Projects</h2>
+          <span class="section-subtitle">Mon travail</span>
+          <h2 id="projects-heading">Projets en vedette</h2>
         </div>
         <div class="projects-grid">
-          <div class="project-card">
+          <article class="project-card">
             <div class="project-image">
               <img src="assets/img/meow-development.png"
-                alt="Meow Development - A web development company website showcasing modern design and functionality"
-                loading="lazy">
+                alt="Meow Development - Site web d'une entreprise de développement web présentant un design moderne et des fonctionnalités"
+                loading="lazy" width="800" height="450">
               <div class="project-overlay">
                 <h3>Meow Development</h3>
-                <p>Web development company website</p>
+                <p>Site web d'entreprise de développement web</p>
                 <div class="project-links">
                   <a href="https://meow-development.netlify.app" class="btn btn-outline" target="_blank"
-                    rel="noopener noreferrer">Live Demo</a>
+                    rel="noopener noreferrer" aria-label="Voir la démo en direct de Meow Development">Démo en direct</a>
                   <a href="https://github.com/YohannHommet/Meow_Development" class="btn btn-outline" target="_blank"
-                    rel="noopener noreferrer">GitHub</a>
+                    rel="noopener noreferrer" aria-label="Voir le code source sur GitHub de Meow Development">GitHub</a>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="project-card">
+          </article>
+          <article class="project-card">
             <div class="project-image">
               <img src="assets/img/cvyber-snake.png"
-                alt="Cyber Snake - An interactive cyberpunk-themed snake game built with modern web technologies"
-                loading="lazy">
+                alt="Cyber Snake - Un jeu de serpent interactif à thème cyberpunk construit avec des technologies web modernes"
+                loading="lazy" width="800" height="450">
               <div class="project-overlay">
                 <h3>Cyber Snake</h3>
-                <p>Cyberpunk snake game</p>
+                <p>Jeu de serpent cyberpunk</p>
                 <div class="project-links">
                   <a href="https://snake-cyberpunk.netlify.app/" class="btn btn-outline" target="_blank"
-                    rel="noopener noreferrer">Live Demo</a>
+                    rel="noopener noreferrer" aria-label="Voir la démo en direct de Cyber Snake">Démo en direct</a>
                   <a href="https://github.com/YohannHommet/snake_ai" class="btn btn-outline" target="_blank"
-                    rel="noopener noreferrer">GitHub</a>
+                    rel="noopener noreferrer" aria-label="Voir le code source sur GitHub de Cyber Snake">GitHub</a>
                 </div>
               </div>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="section section__contact animate-on-scroll">
+    <section id="contact" class="section section__contact animate-on-scroll" aria-labelledby="contact-heading">
       <div class="section-container">
         <div class="section-header">
-          <span class="section-subtitle">Get in Touch</span>
-          <h2>Let's Work Together</h2>
+          <span class="section-subtitle">Entrer en contact</span>
+          <h2 id="contact-heading">Travaillons ensemble</h2>
         </div>
-        <form id="contact-form" class="contact-form" netlify method="POST">
+        <form id="contact-form" class="contact-form" netlify method="POST" aria-labelledby="contact-heading">
           <input type="hidden" name="form-name" value="contact-form">
           <div class="form-group">
-            <input type="text" id="name" name="name" required placeholder="Your Name">
+            <label for="name" class="sr-only">Votre nom</label>
+            <input type="text" id="name" name="name" required placeholder="Votre nom" aria-required="true">
           </div>
           <div class="form-group">
-            <input type="email" id="email" name="email" required placeholder="Your Email">
+            <label for="email" class="sr-only">Votre email</label>
+            <input type="email" id="email" name="email" required placeholder="Votre email" aria-required="true">
           </div>
           <div class="form-group">
-            <textarea id="message" name="message" required placeholder="Your Message"></textarea>
+            <label for="message" class="sr-only">Votre message</label>
+            <textarea id="message" name="message" required placeholder="Votre message" aria-required="true"></textarea>
           </div>
-          <button class="btn btn-primary btn-primary--block" type="submit">Send Message</button>
+          <button class="btn btn-primary btn-primary--block" type="submit">Envoyer le message</button>
         </form>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <div class="footer-container">
-      <a href="#home" class="logo">YH</a>
+      <a href="#home" class="logo" aria-label="Retour à l'accueil">YH</a>
       <p class="footer-copyright">&copy;
-        <script>document.write(new Date().getFullYear())</script> Yohann Hommet. All rights reserved.
+        <script>document.write(new Date().getFullYear())</script> Yohann Hommet. Tous droits réservés.
       </p>
     </div>
   </footer>
@@ -226,8 +257,17 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Yohann Hommet",
-    "jobTitle": "Full Stack Developer",
-    "url": "https://yohann-hommet.netlify.app/"
+    "jobTitle": "Développeur Full Stack",
+    "url": "https://yohann-hommet.netlify.app/",
+    "sameAs": [
+      "https://github.com/YohannHommet",
+      "https://linkedin.com/in/yohann-hommet"
+    ],
+    "knowsAbout": ["Vue.js", "Laravel", "JavaScript", "PHP", "TypeScript", "Docker"],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Freelance"
+    }
   }
   </script>
 </body>

@@ -2,15 +2,50 @@
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+        
+        // Fermer le menu mobile si ouvert
+        if (window.innerWidth < 768 && menuToggle && navLinks.classList.contains('active')) {
+            toggleMenu();
+        }
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+            
+            // Mettre le focus sur l'élément cible pour l'accessibilité
+            targetElement.setAttribute('tabindex', '-1');
+            targetElement.focus({ preventScroll: true });
+            
+            // Mettre à jour l'URL sans recharger la page
+            history.pushState(null, null, targetId);
+        }
     });
 });
 
 // Enhanced Navbar scroll effect
 const navbar = document.querySelector('.navbar');
 let lastScroll = 0;
+
+// Menu mobile toggle
+const menuToggle = document.getElementById('menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+if (menuToggle) {
+    menuToggle.addEventListener('click', toggleMenu);
+}
+
+function toggleMenu() {
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', !expanded);
+    navLinks.classList.toggle('active');
+    
+    // Empêcher le défilement du body quand le menu est ouvert
+    document.body.classList.toggle('menu-open');
+}
 
 // Function to update active section in navbar
 function updateActiveSection() {
@@ -28,9 +63,11 @@ function updateActiveSection() {
     
     navLinks.forEach(link => {
         link.classList.remove('active');
+        link.setAttribute('aria-current', 'false');
 
         if (link.getAttribute('href') === `#${currentSection}`) {
             link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
         }
     });
 }
@@ -49,36 +86,45 @@ window.addEventListener('scroll', () => {
 
 updateActiveSection();
 
+// Gestion du formulaire de contact
 const form = document.getElementById('contact-form');
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const submitButton = form.querySelector('button');
-    const originalText = submitButton.textContent;
-    
-    submitButton.textContent = 'Sending...';
-    submitButton.disabled = true;
-
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    form.reset();
-    
-    submitButton.textContent = originalText;
-    submitButton.disabled = false;
-    showNotification('Thank you for your message! I will get back to you soon.', 'success');
-});
+if (form) {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitButton = form.querySelector('button');
+        const originalText = submitButton.textContent;
+        
+        submitButton.textContent = 'Envoi en cours...';
+        submitButton.disabled = true;
+        
+        try {
+            // Simulation de l'envoi du formulaire (à remplacer par votre logique d'envoi réelle)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            form.reset();
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+            showNotification('Merci pour votre message ! Je vous répondrai bientôt.', 'success');
+            
+            // Focus sur le premier champ pour l'accessibilité
+            form.querySelector('input').focus();
+        } catch (error) {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+            showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
+        }
+    });
+}
 
 function showNotification(message, type) {
     const notification = document.createElement('div');
     notification.classList.add('notification', type);
-    
-    const icon = document.createElement('i');
-    icon.classList.add('fas', type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle');
+    notification.setAttribute('role', 'alert');
+    notification.setAttribute('aria-live', 'assertive');
     
     const messageText = document.createElement('span');
     messageText.textContent = message;
     
-    notification.appendChild(icon);
     notification.appendChild(messageText);
     document.body.appendChild(notification);
 
@@ -114,6 +160,9 @@ themeToggle.addEventListener('click', () => {
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
   updateToggleIcon(newTheme);
+  
+  // Annoncer le changement de thème pour les lecteurs d'écran
+  announceThemeChange(newTheme);
 });
 
 function updateToggleIcon(theme) {
@@ -127,16 +176,40 @@ function updateToggleIcon(theme) {
     lightIcon.style.display = 'none';
     darkIcon.style.display = 'block';
   }
-  themeToggle.setAttribute('aria-label', `${theme === 'dark' ? 'Light' : 'Dark'} mode`);
+  themeToggle.setAttribute('aria-label', `Basculer vers le mode ${theme === 'dark' ? 'clair' : 'sombre'}`);
+}
+
+function announceThemeChange(theme) {
+  const announcement = document.createElement('div');
+  announcement.setAttribute('aria-live', 'polite');
+  announcement.classList.add('sr-only');
+  announcement.textContent = `Thème changé en mode ${theme === 'dark' ? 'sombre' : 'clair'}`;
+  document.body.appendChild(announcement);
+  
+  // Supprimer l'annonce après qu'elle ait été lue
+  setTimeout(() => {
+    announcement.remove();
+  }, 3000);
 }
 
 // Détection du thème système
-if (window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme')) {
+const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+if (prefersDarkScheme.matches && !localStorage.getItem('theme')) {
   document.documentElement.setAttribute('data-theme', 'dark');
   updateToggleIcon('dark');
 }
 
-// Configuration de base
+// Écouter les changements de préférence de thème du système
+prefersDarkScheme.addEventListener('change', (e) => {
+  if (!localStorage.getItem('theme')) {
+    const newTheme = e.matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    updateToggleIcon(newTheme);
+  }
+});
+
+// Configuration de base pour les animations
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -150,7 +223,7 @@ const observer = new IntersectionObserver((entries) => {
   threshold: 0.15
 });
 
-// Initialisation correcte
+// Initialisation correcte des animations
 document.querySelectorAll('.animate-on-scroll').forEach(element => {
   element.classList.add('reveal');
   observer.observe(element);
@@ -164,10 +237,14 @@ function debounce(func, wait = 10) {
   };
 }
 
-window.addEventListener('scroll', debounce(() => {
-  const scrolled = window.pageYOffset;
-  document.querySelectorAll('.parallax').forEach(element => {
-    const speed = parseFloat(element.dataset.speed) || 0.3;
-    element.style.transform = `translateY(${scrolled * speed}px)`;
-  });
-}));
+// Effet de parallaxe optimisé
+const parallaxElements = document.querySelectorAll('.parallax');
+if (parallaxElements.length > 0) {
+  window.addEventListener('scroll', debounce(() => {
+    const scrolled = window.pageYOffset;
+    parallaxElements.forEach(element => {
+      const speed = parseFloat(element.dataset.speed) || 0.3;
+      element.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+  }));
+}

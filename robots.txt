@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://yohann-hommet.netlify.app/sitemap.xml 

@@ -8,6 +8,8 @@
 @import 'components/_social.css';
 @import 'components/_notifications.css';
 @import 'components/_animation.css';
+@import 'components/_accessibility.css';
+
 /* Layout */
 @import 'layout/_navbar.css';
 @import 'layout/_footer.css';

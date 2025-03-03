@@ -1,0 +1,79 @@
+/* Accessibility styles */
+
+/* Skip link - permet aux utilisateurs de clavier de sauter la navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  padding: 8px 16px;
+  z-index: 1000;
+  transition: top 0.3s;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Classe utilitaire pour masquer visuellement du contenu tout en le gardant accessible aux lecteurs d'écran */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Amélioration du focus pour tous les éléments interactifs */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Amélioration du contraste pour le texte secondaire */
+.section-subtitle,
+.hero-title,
+.footer-copyright {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* Amélioration de la lisibilité du texte */
+p,
+li,
+input,
+textarea,
+button {
+  line-height: 1.6;
+}
+
+/* Amélioration du contraste des boutons */
+.btn {
+  font-weight: 600;
+}
+
+/* Amélioration de l'accessibilité des formulaires */
+input,
+textarea {
+  font-size: 1rem;
+}
+
+/* Amélioration de l'accessibilité des images */
+img {
+  max-width: 100%;
+  height: auto;
+}
