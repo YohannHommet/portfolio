@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Yohann's Personal Portfolio Website",
   "scripts": {
-    "start": "live-server",
+    "start": "browser-sync start --server --files '**/*.html, **/*.css, **/*.js, **/*.json'",
     "build": "rm -rf dist && pnpm run copy:static && pnpm run optimize:css && pnpm run optimize:js && pnpm run copy:documents",
     "optimize:css": "postcss assets/style/styles.css -o dist/assets/style/styles.css",
     "optimize:js": "mkdir -p dist/assets/js && terser assets/js/script.js -o dist/assets/js/script.js --compress --mangle && terser assets/js/service-worker.js -o dist/assets/js/service-worker.js --compress --mangle",
@@ -16,9 +16,9 @@
   "main": "index.html",
   "devDependencies": {
     "autoprefixer": "^10.4.14",
+    "browser-sync": "^3.0.4",
     "copyfiles": "^2.4.1",
     "cssnano": "^6.0.1",
-    "live-server": "^1.2.1",
     "postcss": "^8.4.23",
     "postcss-cli": "^10.1.0",
     "postcss-import": "^16.1.0",
