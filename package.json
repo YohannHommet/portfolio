@@ -4,13 +4,24 @@
   "description": "Yohann's Personal Portfolio Website",
   "scripts": {
     "start": "live-server",
-    "build": "echo 'No build step defined'",
-    "deploy": "netlify deploy"
+    "build": "rm -rf dist && pnpm run copy:static && pnpm run optimize:css && pnpm run optimize:js && pnpm run copy:documents",
+    "optimize:css": "postcss assets/style/styles.css -o dist/assets/style/styles.css",
+    "optimize:js": "mkdir -p dist/assets/js && terser assets/js/script.js -o dist/assets/js/script.js --compress --mangle && terser assets/js/service-worker.js -o dist/assets/js/service-worker.js --compress --mangle",
+    "copy:documents": "copyfiles -u 1 assets/documents/**/* dist",
+    "copy:static": "copyfiles index.html offline.html site.webmanifest robots.txt sitemap.xml dist && copyfiles -u 1 \"assets/img/**/*\" dist/assets && copyfiles -u 1 \"assets/favicon/**/*\" dist/assets",
+    "deploy": "pnpm run build && netlify deploy"
   },
   "author": "Yohann Hommet",
   "license": "Personal Use Only",
   "main": "index.html",
   "devDependencies": {
-    "live-server": "^1.2.1"
+    "autoprefixer": "^10.4.14",
+    "copyfiles": "^2.4.1",
+    "cssnano": "^6.0.1",
+    "live-server": "^1.2.1",
+    "postcss": "^8.4.23",
+    "postcss-cli": "^10.1.0",
+    "postcss-import": "^16.1.0",
+    "terser": "^5.17.1"
   }
 }

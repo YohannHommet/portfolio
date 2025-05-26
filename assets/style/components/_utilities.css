@@ -1,0 +1,8 @@
+/* Icon visibility utilities */
+.icon-visible {
+    display: block !important;
+}
+
+.icon-hidden {
+    display: none !important;
+}

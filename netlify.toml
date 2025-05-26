@@ -47,4 +47,13 @@
 [[headers]]
   for = "/service-worker.js"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate" 
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[build.processing.css]
+  bundle = true
+  minify = true
+[build.processing.js]
+  bundle = true
+  minify = true
+[build.processing.html]
+  pretty_urls = true

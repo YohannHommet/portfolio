@@ -1,250 +1,319 @@
-// Smooth scroll for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        // Fermer le menu mobile si ouvert
-        if (window.innerWidth < 768 && menuToggle && navLinks.classList.contains('active')) {
-            toggleMenu();
-        }
-        
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-            targetElement.scrollIntoView({
-                behavior: 'smooth'
+(function() {
+    'use strict';
+
+    const CONFIG = {
+        mobileBreakpoint: 768,
+        navbarScrollThreshold: 50,
+        activeSectionOffset: 300,
+        notificationTimeout: 5000,
+        notificationAnimationFallbackTimeout: 5500, // Slightly longer than animation
+        themeAnnouncementTimeout: 3000,
+        resizeDebounceWait: 200,
+        selectors: {
+            smoothScrollAnchors: 'a[href^="#"]',
+            navbar: '.navbar',
+            menuToggle: '#menu-toggle',
+            navLinksContainer: '.nav-links',
+            sections: 'section',
+            navLinks: 'nav a',
+            contactForm: '#contact-form',
+            formSubmitButton: '#contact-form button[type="submit"]',
+            firstFormInput: '#contact-form input, #contact-form textarea',
+            themeToggle: '#theme-toggle',
+            lightIcon: '#light-icon',
+            darkIcon: '#dark-icon',
+            body: 'body'
+        },
+        classes: {
+            menuOpen: 'menu-open',
+            navLinksActive: 'active',
+            navbarScrolled: 'scrolled',
+            navLinkActive: 'active',
+            notificationBase: 'notification',
+            notificationHiding: 'hiding',
+            srOnly: 'sr-only',
+            iconVisible: 'icon-visible',
+            iconHidden: 'icon-hidden'
+        },
+        attributes: {
+            ariaExpanded: 'aria-expanded',
+            ariaCurrent: 'aria-current',
+            ariaLive: 'aria-live',
+            role: 'role',
+            tabindex: 'tabindex',
+            dataTheme: 'data-theme'
+        },
+        localStorageKeys: {
+            theme: 'theme'
+        },
+        serviceWorkerPath: '/assets/js/service-worker.js'
+    };
+
+    // --- UTILITY FUNCTIONS ---
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // --- DOM ELEMENTS CACHE ---
+    const DOMElements = {};
+
+    function cacheDOMElements() {
+        DOMElements.navbar = document.querySelector(CONFIG.selectors.navbar);
+        DOMElements.menuToggle = document.getElementById(CONFIG.selectors.menuToggle.substring(1));
+        DOMElements.navLinksContainer = document.querySelector(CONFIG.selectors.navLinksContainer);
+        DOMElements.contactForm = document.getElementById(CONFIG.selectors.contactForm.substring(1));
+        DOMElements.themeToggle = document.getElementById(CONFIG.selectors.themeToggle.substring(1));
+        DOMElements.lightIcon = document.getElementById(CONFIG.selectors.lightIcon.substring(1));
+        DOMElements.darkIcon = document.getElementById(CONFIG.selectors.darkIcon.substring(1));
+        DOMElements.body = document.body;
+        // Sections and nav links are queried dynamically or when needed due to their multiple instances
+    }
+
+    // --- STATE VARIABLES ---
+    let lastScroll = 0;
+    let sectionOffsets = [];
+    let scrollRAFId = null;
+
+    // --- SMOOTH SCROLL ---
+    function initSmoothScroll() {
+        document.querySelectorAll(CONFIG.selectors.smoothScrollAnchors).forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (window.innerWidth < CONFIG.mobileBreakpoint && DOMElements.menuToggle && DOMElements.navLinksContainer.classList.contains(CONFIG.classes.navLinksActive)) {
+                    toggleMenu();
+                }
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                    targetElement.setAttribute(CONFIG.attributes.tabindex, '-1');
+                    targetElement.focus({ preventScroll: true });
+                    history.pushState(null, null, targetId);
+                }
             });
-            
-            // Mettre le focus sur l'élément cible pour l'accessibilité
-            targetElement.setAttribute('tabindex', '-1');
-            targetElement.focus({ preventScroll: true });
-            
-            // Mettre à jour l'URL sans recharger la page
-            history.pushState(null, null, targetId);
+        });
+    }
+
+    // --- MOBILE MENU ---
+    function toggleMenu() {
+        if (!DOMElements.menuToggle || !DOMElements.navLinksContainer) return;
+        const isExpanded = DOMElements.menuToggle.getAttribute(CONFIG.attributes.ariaExpanded) === 'true';
+        DOMElements.menuToggle.setAttribute(CONFIG.attributes.ariaExpanded, !isExpanded);
+        DOMElements.navLinksContainer.classList.toggle(CONFIG.classes.navLinksActive);
+        DOMElements.body.classList.toggle(CONFIG.classes.menuOpen);
+    }
+
+    function initMobileMenu() {
+        if (DOMElements.menuToggle) {
+            DOMElements.menuToggle.addEventListener('click', toggleMenu);
         }
-    });
-});
+    }
 
-// Enhanced Navbar scroll effect
-const navbar = document.querySelector('.navbar');
-let lastScroll = 0;
+    // --- NAVBAR SCROLL EFFECTS & ACTIVE SECTION HIGHLIGHTING ---
+    function cacheSectionDetails() {
+        const sections = document.querySelectorAll(CONFIG.selectors.sections);
+        sectionOffsets = Array.from(sections).map(section => ({
+            id: section.getAttribute('id'),
+            offsetTop: section.offsetTop,
+            element: section
+        }));
+    }
 
-// Menu mobile toggle
-const menuToggle = document.getElementById('menu-toggle');
-const navLinks = document.querySelector('.nav-links');
+    function updateActiveSection() {
+        const scrollY = window.pageYOffset;
+        let currentSectionId = '';
 
-if (menuToggle) {
-    menuToggle.addEventListener('click', toggleMenu);
-}
-
-function toggleMenu() {
-    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', !expanded);
-    navLinks.classList.toggle('active');
-    
-    // Empêcher le défilement du body quand le menu est ouvert
-    document.body.classList.toggle('menu-open');
-}
-
-// Function to update active section in navbar
-function updateActiveSection() {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav a');
-    
-    let currentSection = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (window.scrollY >= (sectionTop - 300)) {
-            currentSection = section.getAttribute('id');
+        for (const section of sectionOffsets) {
+            if (scrollY >= (section.offsetTop - CONFIG.activeSectionOffset)) {
+                currentSectionId = section.id;
+            }
         }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        link.setAttribute('aria-current', 'false');
 
-        if (link.getAttribute('href') === `#${currentSection}`) {
-            link.classList.add('active');
-            link.setAttribute('aria-current', 'page');
+        document.querySelectorAll(CONFIG.selectors.navLinks).forEach(link => {
+            link.classList.remove(CONFIG.classes.navLinkActive);
+            link.setAttribute(CONFIG.attributes.ariaCurrent, 'false');
+            if (link.getAttribute('href') === `#${currentSectionId}`) {
+                link.classList.add(CONFIG.classes.navLinkActive);
+                link.setAttribute(CONFIG.attributes.ariaCurrent, 'page');
+            }
+        });
+    }
+
+    function handleScroll() {
+        if (scrollRAFId) {
+            window.cancelAnimationFrame(scrollRAFId);
         }
-    });
-}
+        scrollRAFId = window.requestAnimationFrame(() => {
+            const currentScroll = window.pageYOffset;
+            if (DOMElements.navbar) {
+                currentScroll > CONFIG.navbarScrollThreshold
+                    ? DOMElements.navbar.classList.add(CONFIG.classes.navbarScrolled)
+                    : DOMElements.navbar.classList.remove(CONFIG.classes.navbarScrolled);
+            }
+            updateActiveSection();
+            lastScroll = currentScroll; // Retained for potential future use (e.g., scroll direction)
+        });
+    }
 
-// Handle scroll events
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    currentScroll > 50 
-      ? navbar.classList.add('scrolled') 
-      : navbar.classList.remove('scrolled');
-    
-    updateActiveSection();
-    lastScroll = currentScroll;
-});
+    function initScrollEffects() {
+        cacheSectionDetails();
+        updateActiveSection(); // Initial call
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', debounce(cacheSectionDetails, CONFIG.resizeDebounceWait));
+    }
 
-updateActiveSection();
-
-// Gestion du formulaire de contact
-const form = document.getElementById('contact-form');
-if (form) {
-    form.addEventListener('submit', async (e) => {
+    // --- CONTACT FORM ---
+    async function handleContactFormSubmit(e) {
         e.preventDefault();
-        const submitButton = form.querySelector('button');
+        if (!DOMElements.contactForm) return;
+
+        const submitButton = DOMElements.contactForm.querySelector(CONFIG.selectors.formSubmitButton);
+        if (!submitButton) return;
+
         const originalText = submitButton.textContent;
-        
         submitButton.textContent = 'Envoi en cours...';
         submitButton.disabled = true;
-        
+
         try {
-            // Simulation de l'envoi du formulaire (à remplacer par votre logique d'envoi réelle)
+            // Simulate form submission (replace with actual AJAX call if needed)
             await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            form.reset();
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
+
+            DOMElements.contactForm.reset();
             showNotification('Merci pour votre message ! Je vous répondrai bientôt.', 'success');
-            
-            // Focus sur le premier champ pour l'accessibilité
-            form.querySelector('input').focus();
+            const firstInput = DOMElements.contactForm.querySelector(CONFIG.selectors.firstFormInput);
+            if (firstInput) firstInput.focus();
+
         } catch (error) {
+            console.error('Form submission error:', error);
+            showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
+        } finally {
             submitButton.textContent = originalText;
             submitButton.disabled = false;
-            showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
         }
-    });
-}
-
-function showNotification(message, type) {
-    const notification = document.createElement('div');
-    notification.classList.add('notification', type);
-    notification.setAttribute('role', 'alert');
-    notification.setAttribute('aria-live', 'assertive');
-    
-    const messageText = document.createElement('span');
-    messageText.textContent = message;
-    
-    notification.appendChild(messageText);
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.classList.add('hiding');
-        notification.addEventListener('animationend', () => {
-            notification.remove();
-        });
-    }, 5000);
-}
-
-// Register Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/assets/js/service-worker.js')
-            .then(() => console.log('ServiceWorker registration successful'))
-            .catch(err => console.log('ServiceWorker registration failed: ', err));
-    });
-}
-
-// Gestionnaire de thème
-const themeToggle = document.getElementById('theme-toggle');
-const savedTheme = localStorage.getItem('theme') || 'light';
-
-// Appliquer le thème sauvegardé
-document.documentElement.setAttribute('data-theme', savedTheme);
-updateToggleIcon(savedTheme);
-
-themeToggle.addEventListener('click', () => {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
-  updateToggleIcon(newTheme);
-  
-  // Annoncer le changement de thème pour les lecteurs d'écran
-  announceThemeChange(newTheme);
-});
-
-function updateToggleIcon(theme) {
-  const lightIcon = document.getElementById('light-icon');
-  const darkIcon = document.getElementById('dark-icon');
-  
-  if (theme === 'dark') {
-    lightIcon.style.display = 'block';
-    darkIcon.style.display = 'none';
-  } else {
-    lightIcon.style.display = 'none';
-    darkIcon.style.display = 'block';
-  }
-  themeToggle.setAttribute('aria-label', `Basculer vers le mode ${theme === 'dark' ? 'clair' : 'sombre'}`);
-}
-
-function announceThemeChange(theme) {
-  const announcement = document.createElement('div');
-  announcement.setAttribute('aria-live', 'polite');
-  announcement.classList.add('sr-only');
-  announcement.textContent = `Thème changé en mode ${theme === 'dark' ? 'sombre' : 'clair'}`;
-  document.body.appendChild(announcement);
-  
-  // Supprimer l'annonce après qu'elle ait été lue
-  setTimeout(() => {
-    announcement.remove();
-  }, 3000);
-}
-
-// Détection du thème système
-const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-if (prefersDarkScheme.matches && !localStorage.getItem('theme')) {
-  document.documentElement.setAttribute('data-theme', 'dark');
-  updateToggleIcon('dark');
-}
-
-// Écouter les changements de préférence de thème du système
-prefersDarkScheme.addEventListener('change', (e) => {
-  if (!localStorage.getItem('theme')) {
-    const newTheme = e.matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    updateToggleIcon(newTheme);
-  }
-});
-
-// Configuration de base pour les animations
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    } else {
-      entry.target.classList.remove('visible');
     }
-  });
-}, {
-  rootMargin: '-50px 0px -100px 0px',
-  threshold: 0.15
-});
 
-// Initialisation correcte des animations
-document.querySelectorAll('.animate-on-scroll').forEach(element => {
-  element.classList.add('reveal');
-  observer.observe(element);
-});
+    function initContactForm() {
+        if (DOMElements.contactForm) {
+            DOMElements.contactForm.addEventListener('submit', handleContactFormSubmit);
+        }
+    }
 
-function debounce(func, wait = 10) {
-  let timeout;
-  return (...args) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
-  };
-}
+    // --- NOTIFICATIONS ---
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.classList.add(CONFIG.classes.notificationBase, type);
+        notification.setAttribute(CONFIG.attributes.role, 'alert');
+        notification.setAttribute(CONFIG.attributes.ariaLive, 'assertive');
 
-// Effet de parallaxe optimisé
-const parallaxElements = document.querySelectorAll('.parallax');
-if (parallaxElements.length > 0) {
-  window.addEventListener('scroll', debounce(() => {
-    const scrolled = window.pageYOffset;
-    parallaxElements.forEach(element => {
-      const speed = parseFloat(element.dataset.speed) || 0.3;
-      element.style.transform = `translateY(${scrolled * speed}px)`;
+        const messageText = document.createElement('span');
+        messageText.textContent = message;
+        notification.appendChild(messageText);
+        DOMElements.body.appendChild(notification);
+
+        let removed = false;
+        const removeNotification = () => {
+            if (removed) return;
+            notification.remove();
+            removed = true;
+        };
+
+        // Start hiding animation
+        setTimeout(() => {
+            notification.classList.add(CONFIG.classes.notificationHiding);
+            // Fallback removal in case animationend doesn't fire
+            setTimeout(removeNotification, CONFIG.notificationAnimationFallbackTimeout - CONFIG.notificationTimeout);
+        }, CONFIG.notificationTimeout);
+
+        notification.addEventListener('animationend', removeNotification);
+    }
+
+    // --- THEME MANAGEMENT ---
+    function updateThemeToggleIcon(theme) {
+        if (!DOMElements.lightIcon || !DOMElements.darkIcon || !DOMElements.themeToggle) return;
+
+        if (theme === 'dark') {
+            DOMElements.lightIcon.classList.remove(CONFIG.classes.iconHidden);
+            DOMElements.lightIcon.classList.add(CONFIG.classes.iconVisible);
+            DOMElements.darkIcon.classList.remove(CONFIG.classes.iconVisible);
+            DOMElements.darkIcon.classList.add(CONFIG.classes.iconHidden);
+        } else {
+            DOMElements.lightIcon.classList.remove(CONFIG.classes.iconVisible);
+            DOMElements.lightIcon.classList.add(CONFIG.classes.iconHidden);
+            DOMElements.darkIcon.classList.remove(CONFIG.classes.iconHidden);
+            DOMElements.darkIcon.classList.add(CONFIG.classes.iconVisible);
+        }
+        DOMElements.themeToggle.setAttribute('aria-label', `Basculer vers le mode ${theme === 'dark' ? 'clair' : 'sombre'}`);
+    }
+
+    function announceThemeChange(theme) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute(CONFIG.attributes.ariaLive, 'polite');
+        announcement.classList.add(CONFIG.classes.srOnly);
+        announcement.textContent = `Thème changé en mode ${theme === 'dark' ? 'sombre' : 'clair'}`;
+        DOMElements.body.appendChild(announcement);
+
+        setTimeout(() => {
+            announcement.remove();
+        }, CONFIG.themeAnnouncementTimeout);
+    }
+
+    function initThemeManagement() {
+        if (!DOMElements.themeToggle) return;
+
+        const savedTheme = localStorage.getItem(CONFIG.localStorageKeys.theme);
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let currentTheme = 'light'; // Default theme
+
+        if (savedTheme) {
+            currentTheme = savedTheme;
+        } else if (prefersDarkScheme) {
+            currentTheme = 'dark';
+        }
+
+        document.documentElement.setAttribute(CONFIG.attributes.dataTheme, currentTheme);
+        updateThemeToggleIcon(currentTheme);
+
+        DOMElements.themeToggle.addEventListener('click', () => {
+            const currentDataTheme = document.documentElement.getAttribute(CONFIG.attributes.dataTheme);
+            const newTheme = currentDataTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute(CONFIG.attributes.dataTheme, newTheme);
+            localStorage.setItem(CONFIG.localStorageKeys.theme, newTheme);
+            updateThemeToggleIcon(newTheme);
+            announceThemeChange(newTheme);
+        });
+    }
+
+    // --- SERVICE WORKER REGISTRATION ---
+    function initServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register(CONFIG.serviceWorkerPath)
+                    .then(() => console.log('ServiceWorker: Registration successful'))
+                    .catch(err => console.error('ServiceWorker: Registration failed: ', err));
+            });
+        }
+    }
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+        cacheDOMElements();
+        initSmoothScroll();
+        initMobileMenu();
+        initScrollEffects();
+        initContactForm();
+        initThemeManagement();
+        initServiceWorker();
     });
-  }));
-}
+
+})();

@@ -9,6 +9,7 @@
 @import 'components/_notifications.css';
 @import 'components/_animation.css';
 @import 'components/_accessibility.css';
+@import 'components/_utilities.css';
 
 /* Layout */
 @import 'layout/_navbar.css';
