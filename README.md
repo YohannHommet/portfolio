@@ -36,31 +36,6 @@ Check out the live version: [yohann-hommet.netlify.app](https://yohann-hommet.ne
 - **Performance**: Lighthouse optimized
 - **Accessibility**: WCAG 2.1 AA compliant
 
-## 🚀 Quick Start
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/YohannHommet/portfolio.git
-   cd portfolio
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pnpm install
-   ```
-
-3. **Start development server**
-   ```bash
-   pnpm start
-   ```
-   Then open `http://localhost:3000` in your browser.
-
-4. **Build for production**
-   ```bash
-   pnpm run build
-   ```
-   The production-ready files will be in the `dist` directory.
-
 ## 📂 Project Structure
 
 ```
