@@ -18,6 +18,7 @@ dist/
 # IDE files
 .vscode/
 .idea/
+.cursor/
 
 # MacOS files
 .DS_Store
