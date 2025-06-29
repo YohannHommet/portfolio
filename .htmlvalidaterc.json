@@ -1,20 +1,45 @@
 {
-  "extends": ["html-validate:recommended"],
+  "extends": [
+    "html-validate:recommended"
+  ],
   "rules": {
     "close-order": "error",
     "void-content": "error",
-    "void-style": ["error", { "style": "omit" }],
-    "class-pattern": ["error", { "pattern": "kebab-case" }],
-    "id-pattern": ["error", { "pattern": "kebab-case" }],
+    "void-style": [
+      "error",
+      {
+        "style": "omit"
+      }
+    ],
+    "class-pattern": [
+      "error",
+      {
+        "pattern": "/^[a-z]([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$/",
+        "style": "regex"
+      }
+    ],
+    "id-pattern": [
+      "error",
+      {
+        "pattern": "kebab-case"
+      }
+    ],
     "require-sri": "off",
     "no-trailing-whitespace": "warn",
     "prefer-native-element": "warn",
     "no-deprecated-attr": "error",
     "wcag/h37": "error",
     "wcag/h67": "error",
-    "wcag/h71": "error"
+    "wcag/h71": "error",
+    "no-unknown-elements": "error",
+    "require-lang": "error",
+    "meta-refresh": "error",
+    "no-conditional-comment": "error",
+    "no-duplicate-id": "error",
+    "no-missing-references": "error"
   },
   "elements": [
     "html5"
-  ]
+  ],
+  "plugins": []
 }
