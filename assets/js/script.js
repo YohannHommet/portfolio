@@ -6,7 +6,7 @@
         navbarScrollThreshold: 50,
         activeSectionOffset: 300,
         notificationTimeout: 5000,
-        notificationAnimationFallbackTimeout: 5500, // Slightly longer than animation
+        notificationAnimationFallbackTimeout: 500, // Animation fallback duration
         themeAnnouncementTimeout: 3000,
         resizeDebounceWait: 200,
         selectors: {
@@ -78,7 +78,6 @@
     }
 
     // --- STATE VARIABLES ---
-    let lastScroll = 0;
     let sectionOffsets = [];
     let scrollRAFId = null;
 
@@ -88,7 +87,7 @@
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
 
-                if (window.innerWidth < CONFIG.mobileBreakpoint && DOMElements.menuToggle && DOMElements.navLinksContainer.classList.contains(CONFIG.classes.navLinksActive)) {
+                if (window.innerWidth < CONFIG.mobileBreakpoint && DOMElements.menuToggle && DOMElements.navLinksContainer && DOMElements.navLinksContainer.classList.contains(CONFIG.classes.navLinksActive)) {
                     toggleMenu();
                 }
 
@@ -162,7 +161,6 @@
                     : DOMElements.navbar.classList.remove(CONFIG.classes.navbarScrolled);
             }
             updateActiveSection();
-            lastScroll = currentScroll; // Retained for potential future use (e.g., scroll direction)
         });
     }
 

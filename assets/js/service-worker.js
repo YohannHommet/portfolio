@@ -25,14 +25,9 @@ const CACHE_SIZE_LIMIT = 50; // Maximum number of items in dynamic/image cache
 async function trimCache(cacheName, maxItems) {
     const cache = await caches.open(cacheName);
     const keys = await cache.keys();
-    if (keys.length > maxItems) {
-        await cache.delete(keys[0]);
-        // Potentially loop to delete multiple if many items were added at once
-        // For simplicity, this deletes one. Recursive call removed to prevent potential deep stacks.
-        if (keys.length -1 > maxItems) { 
-            console.log(`ServiceWorker: Trimming cache ${cacheName} further.`);
-            // Consider a loop or a more robust trimming strategy if large bulk additions are common
-        }
+    while (keys.length > maxItems) {
+        await cache.delete(keys.shift());
+        console.log(`ServiceWorker: Trimmed cache ${cacheName}, ${keys.length} items remaining.`);
     }
 }
 
@@ -102,15 +97,23 @@ self.addEventListener('fetch', event => {
                 if (preloadResponse) {
                     console.log('ServiceWorker: Using preload response for:', event.request.url);
                     // It's important to cache the preloaded response as well
-                    const cache = await caches.open(CACHE_NAMES.static);
-                    cache.put(event.request, preloadResponse.clone()); 
+                    try {
+                        const cache = await caches.open(CACHE_NAMES.static);
+                        await cache.put(event.request, preloadResponse.clone());
+                    } catch (error) {
+                        console.error('ServiceWorker: Failed to cache preload response:', error);
+                    }
                     return preloadResponse;
                 }
 
                 const networkResponse = await fetch(event.request);
                 // Cache the network response for future offline use
-                const cache = await caches.open(CACHE_NAMES.static);
-                cache.put(event.request, networkResponse.clone());
+                try {
+                    const cache = await caches.open(CACHE_NAMES.static);
+                    await cache.put(event.request, networkResponse.clone());
+                } catch (error) {
+                    console.error('ServiceWorker: Failed to cache network response:', error);
+                }
                 return networkResponse;
             } catch (error) {
                 console.log('ServiceWorker: Network request for HTML failed, trying cache for:', event.request.url, error);
@@ -133,9 +136,13 @@ self.addEventListener('fetch', event => {
             }
             try {
                 const networkResponse = await fetch(event.request);
-                const cache = await caches.open(CACHE_NAMES.images);
-                cache.put(event.request, networkResponse.clone());
-                await trimCache(CACHE_NAMES.images, CACHE_SIZE_LIMIT);
+                try {
+                    const cache = await caches.open(CACHE_NAMES.images);
+                    await cache.put(event.request, networkResponse.clone());
+                    await trimCache(CACHE_NAMES.images, CACHE_SIZE_LIMIT);
+                } catch (error) {
+                    console.error('ServiceWorker: Failed to cache image:', error);
+                }
                 return networkResponse;
             } catch (error) {
                 console.error('ServiceWorker: Failed to fetch image from network:', event.request.url, error);
