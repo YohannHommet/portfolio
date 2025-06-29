@@ -242,9 +242,9 @@ jobs:
           echo "📱 Testing mobile accessibility..."
           pa11y http://localhost:8081 --standard WCAG2AA --viewport 375x667 --reporter cli || echo "Mobile accessibility tests completed"
 
-  # Cross-browser compatibility (simulation)
-  compatibility:
-    name: 🌐 Browser Compatibility
+  # Static Analysis & Validation
+  validation:
+    name: 🔍 Static Analysis
     runs-on: ubuntu-latest
     needs: build
     
@@ -258,60 +258,85 @@ jobs:
           name: build-output
           path: dist/
           
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          
-      - name: 🔧 Install testing tools
+      - name: � Validate HTML structure
         run: |
-          npm install -g puppeteer
+          echo "🔍 Validating HTML structure..."
           
-      - name: 🌐 Test browser compatibility
+          # Check if index.html exists and has basic structure
+          if [ -f "dist/index.html" ]; then
+            echo "✅ index.html exists"
+            
+            # Check for essential HTML elements
+            if grep -q "<!DOCTYPE html>" dist/index.html; then
+              echo "✅ DOCTYPE declaration found"
+            else
+              echo "⚠️ DOCTYPE declaration missing"
+            fi
+            
+            if grep -q "<html" dist/index.html; then
+              echo "✅ HTML element found"
+            else
+              echo "❌ HTML element missing"
+              exit 1
+            fi
+            
+            if grep -q "<head>" dist/index.html; then
+              echo "✅ HEAD element found"
+            else
+              echo "❌ HEAD element missing"
+              exit 1
+            fi
+            
+            if grep -q "<body>" dist/index.html; then
+              echo "✅ BODY element found"
+            else
+              echo "❌ BODY element missing"
+              exit 1
+            fi
+            
+            if grep -q "<title>" dist/index.html; then
+              echo "✅ TITLE element found"
+            else
+              echo "⚠️ TITLE element missing"
+            fi
+            
+          else
+            echo "❌ index.html not found"
+            exit 1
+          fi
+          
+      - name: 📱 Check responsive design elements
         run: |
-          # Create a simple browser compatibility test
-          cat > browser-test.js << 'EOF'
-          const puppeteer = require('puppeteer');
-          const fs = require('fs');
-          const path = require('path');
+          echo "📱 Checking responsive design elements..."
           
-          (async () => {
-            const browser = await puppeteer.launch({
-              headless: true,
-              args: ['--no-sandbox', '--disable-setuid-sandbox']
-            });
-            
-            const page = await browser.newPage();
-            
-            // Test different viewport sizes
-            const viewports = [
-              { width: 1920, height: 1080, name: 'Desktop' },
-              { width: 768, height: 1024, name: 'Tablet' },
-              { width: 375, height: 667, name: 'Mobile' }
-            ];
-            
-            for (const viewport of viewports) {
-              await page.setViewport(viewport);
-              await page.goto(`file://${path.resolve('dist/index.html')}`);
-              
-              // Wait for page to load
-              await page.waitForTimeout(2000);
-              
-              // Check for JavaScript errors
-              const errors = await page.evaluate(() => {
-                return window.errors || [];
-              });
-              
-              console.log(`✅ ${viewport.name} (${viewport.width}x${viewport.height}): Loaded successfully`);
-              
-              if (errors.length > 0) {
-                console.log(`⚠️  JavaScript errors found:`, errors);
-              }
-            }
-            
-            await browser.close();
-            console.log('🌐 Browser compatibility tests completed');
-          })();
-          EOF
+          # Check for viewport meta tag
+          if grep -q 'name="viewport"' dist/index.html; then
+            echo "✅ Viewport meta tag found"
+          else
+            echo "⚠️ Viewport meta tag missing - important for mobile responsiveness"
+          fi
           
-          node browser-test.js
+          # Check for CSS media queries in CSS files
+          if find dist -name "*.css" -exec grep -l "@media" {} \; | head -1; then
+            echo "✅ Media queries found in CSS"
+          else
+            echo "⚠️ No media queries found - consider adding for better responsiveness"
+          fi
+          
+      - name: 🔒 Security check
+        run: |
+          echo "🔒 Performing basic security checks..."
+          
+          # Check for inline scripts (potential XSS risk)
+          if grep -q "javascript:" dist/index.html; then
+            echo "⚠️ JavaScript URLs found - review for security"
+          else
+            echo "✅ No JavaScript URLs found"
+          fi
+          
+          # Check for external resource loading
+          if grep -q "http://" dist/index.html; then
+            echo "⚠️ HTTP resources found - consider using HTTPS"
+          else
+            echo "✅ No insecure HTTP resources found"
+          fi

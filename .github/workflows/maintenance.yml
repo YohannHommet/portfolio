@@ -357,14 +357,15 @@ jobs:
         run: |
           echo "🔍 Code Quality Metrics:"
           
-          # Count lines of code
-          if command -v cloc &> /dev/null; then
-            cloc --exclude-dir=node_modules,dist,.git .
-          else
-            echo "📝 HTML files: $(find . -name "*.html" -not -path "./node_modules/*" -not -path "./dist/*" | xargs wc -l | tail -1 | awk '{print $1}') lines"
-            echo "🎨 CSS files: $(find . -name "*.css" -not -path "./node_modules/*" -not -path "./dist/*" | xargs wc -l | tail -1 | awk '{print $1}') lines"
-            echo "🟨 JS files: $(find . -name "*.js" -not -path "./node_modules/*" -not -path "./dist/*" | xargs wc -l | tail -1 | awk '{print $1}') lines"
-          fi
+          # Count lines of code (simple version without external tools)
+          echo "📝 HTML files: $(find . -name "*.html" -not -path "./node_modules/*" -not -path "./dist/*" -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "0") lines"
+          echo "🎨 CSS files: $(find . -name "*.css" -not -path "./node_modules/*" -not -path "./dist/*" -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "0") lines"
+          echo "🟨 JS files: $(find . -name "*.js" -not -path "./node_modules/*" -not -path "./dist/*" -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "0") lines"
+          
+          # File count summary
+          echo "� Total HTML files: $(find . -name "*.html" -not -path "./node_modules/*" -not -path "./dist/*" | wc -l)"
+          echo "📁 Total CSS files: $(find . -name "*.css" -not -path "./node_modules/*" -not -path "./dist/*" | wc -l)"
+          echo "📁 Total JS files: $(find . -name "*.js" -not -path "./node_modules/*" -not -path "./dist/*" | wc -l)"
 
   # Summary Report
   summary:
