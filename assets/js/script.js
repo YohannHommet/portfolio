@@ -171,6 +171,35 @@
         window.addEventListener('resize', debounce(cacheSectionDetails, CONFIG.resizeDebounceWait));
     }
 
+    // --- SCROLL ANIMATIONS ---
+    function initScrollAnimations() {
+        const animatedElements = document.querySelectorAll('[data-aos]');
+        
+        function checkElementsInView() {
+            const windowHeight = window.innerHeight;
+            const scrollTop = window.pageYOffset;
+            
+            animatedElements.forEach((element, index) => {
+                const elementTop = element.offsetTop;
+                const elementHeight = element.offsetHeight;
+                const triggerPoint = scrollTop + windowHeight - 100;
+                
+                if (triggerPoint > elementTop) {
+                    const delay = element.getAttribute('data-aos-delay') || 0;
+                    setTimeout(() => {
+                        element.classList.add('animate');
+                    }, parseInt(delay));
+                }
+            });
+        }
+        
+        // Initial check
+        checkElementsInView();
+        
+        // Check on scroll
+        window.addEventListener('scroll', debounce(checkElementsInView, 100));
+    }
+
     // --- CONTACT FORM ---
     async function handleContactFormSubmit(e) {
         e.preventDefault();
@@ -309,6 +338,7 @@
         initSmoothScroll();
         initMobileMenu();
         initScrollEffects();
+        initScrollAnimations();
         initContactForm();
         initThemeManagement();
         initServiceWorker();
