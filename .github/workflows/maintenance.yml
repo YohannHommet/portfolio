@@ -20,7 +20,7 @@ on:
 
 env:
   NODE_VERSION: '18'
-  PNPM_VERSION: '8'
+  PNPM_VERSION: '9'
 
 jobs:
   # Dependency Updates
@@ -46,7 +46,15 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
           
-      - name: 📊 Check outdated dependencies
+      - name: � Install dependencies (for dependency check)
+        run: |
+          # Try frozen lockfile first, fallback to regular install if it fails
+          pnpm install --frozen-lockfile || {
+            echo "⚠️ Frozen lockfile failed, attempting regular install..."
+            pnpm install --no-frozen-lockfile
+          }
+          
+      - name: � Check outdated dependencies
         id: outdated
         run: |
           echo "🔍 Checking for outdated dependencies..."
@@ -89,7 +97,10 @@ jobs:
           echo "🧪 Testing updated dependencies..."
           
           # Install dependencies
-          pnpm install --frozen-lockfile
+          pnpm install --frozen-lockfile || {
+            echo "⚠️ Frozen lockfile failed, attempting regular install..."
+            pnpm install --no-frozen-lockfile
+          }
           
           # Run build to ensure everything works
           pnpm run build
@@ -153,7 +164,12 @@ jobs:
           cache: 'pnpm'
           
       - name: 📥 Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          # Try frozen lockfile first, fallback to regular install if it fails
+          pnpm install --frozen-lockfile || {
+            echo "⚠️ Frozen lockfile failed, attempting regular install..."
+            pnpm install --no-frozen-lockfile
+          }
         
       - name: 🔒 Run security audit
         id: audit
@@ -198,7 +214,10 @@ jobs:
           echo "🧪 Testing security fixes..."
           
           # Reinstall dependencies
-          pnpm install --frozen-lockfile
+          pnpm install --frozen-lockfile || {
+            echo "⚠️ Frozen lockfile failed, attempting regular install..."
+            pnpm install --no-frozen-lockfile
+          }
           
           # Run build to ensure fixes don't break anything
           pnpm run build

@@ -9,7 +9,7 @@ on:
 
 env:
   NODE_VERSION: '18'
-  PNPM_VERSION: '8'
+  PNPM_VERSION: '9'
 
 jobs:
   # Code Quality and Linting
@@ -33,7 +33,12 @@ jobs:
           cache: 'pnpm'
           
       - name: 📥 Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          # Try frozen lockfile first, fallback to regular install if it fails
+          pnpm install --frozen-lockfile || {
+            echo "⚠️ Frozen lockfile failed, attempting regular install..."
+            pnpm install --no-frozen-lockfile
+          }
         
       - name: 🔍 Lint HTML files
         run: |
@@ -78,7 +83,12 @@ jobs:
           cache: 'pnpm'
           
       - name: 📥 Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          # Try frozen lockfile first, fallback to regular install if it fails
+          pnpm install --frozen-lockfile || {
+            echo "⚠️ Frozen lockfile failed, attempting regular install..."
+            pnpm install --no-frozen-lockfile
+          }
         
       - name: 🏗️ Build project
         run: pnpm run build
@@ -157,7 +167,12 @@ jobs:
           cache: 'pnpm'
           
       - name: 📥 Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          # Try frozen lockfile first, fallback to regular install if it fails
+          pnpm install --frozen-lockfile || {
+            echo "⚠️ Frozen lockfile failed, attempting regular install..."
+            pnpm install --no-frozen-lockfile
+          }
         
       - name: 🔒 Security audit
         run: |

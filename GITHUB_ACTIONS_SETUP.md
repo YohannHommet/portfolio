@@ -12,6 +12,27 @@ The GitHub Actions setup includes three main workflows:
 
 ## 🔧 Required Setup
 
+### 0. Prerequisites
+
+**Important**: This project uses pnpm v9 lockfile format. Ensure you have the correct pnpm version:
+
+```bash
+# Check your current pnpm version
+pnpm --version
+
+# If not v9, update to v9
+npm install -g pnpm@9
+
+# Verify the update
+pnpm --version
+```
+
+If you encounter lockfile compatibility issues, regenerate the lockfile:
+```bash
+rm pnpm-lock.yaml
+pnpm install
+```
+
 ### 1. GitHub Secrets Configuration
 
 You need to configure the following secrets in your GitHub repository:
@@ -148,19 +169,25 @@ The workflows automatically:
 
 ### Common Issues
 
-1. **"Netlify deployment failed"**
+1. **"pnpm install --frozen-lockfile failed"**
+   - This usually indicates a pnpm version mismatch
+   - The workflows automatically fallback to `--no-frozen-lockfile`
+   - Solution: Update your local pnpm version to match the CI version (v9)
+   - Run `pnpm --version` locally and `pnpm install -g pnpm@9` to update
+
+2. **"Netlify deployment failed"**
    - Check if `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID` are correctly set
    - Verify token has proper permissions
 
-2. **"Build artifacts not found"**
+3. **"Build artifacts not found"**
    - Ensure the build process completes successfully
    - Check if all required files are generated in the `dist` directory
 
-3. **"Linting errors"**
+4. **"Linting errors"**
    - Review the specific linting rules in configuration files
    - Fix code quality issues or adjust rules if necessary
 
-4. **"Security audit failures"**
+5. **"Security audit failures"**
    - Review dependency vulnerabilities
    - Update dependencies or apply security patches
 

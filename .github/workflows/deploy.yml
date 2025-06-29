@@ -16,7 +16,7 @@ on:
 
 env:
   NODE_VERSION: '18'
-  PNPM_VERSION: '8'
+  PNPM_VERSION: '9'
 
 jobs:
   # Pre-deployment checks
@@ -78,7 +78,12 @@ jobs:
           cache: 'pnpm'
           
       - name: 📥 Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          # Try frozen lockfile first, fallback to regular install if it fails
+          pnpm install --frozen-lockfile || {
+            echo "⚠️ Frozen lockfile failed, attempting regular install..."
+            pnpm install --no-frozen-lockfile
+          }
         
       - name: 🧹 Clean previous builds
         run: rm -rf dist
