@@ -1,0 +1,20 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "close-order": "error",
+    "void-content": "error",
+    "void-style": ["error", { "style": "omit" }],
+    "class-pattern": ["error", { "pattern": "kebab-case" }],
+    "id-pattern": ["error", { "pattern": "kebab-case" }],
+    "require-sri": "off",
+    "no-trailing-whitespace": "warn",
+    "prefer-native-element": "warn",
+    "no-deprecated-attr": "error",
+    "wcag/h37": "error",
+    "wcag/h67": "error",
+    "wcag/h71": "error"
+  },
+  "elements": [
+    "html5"
+  ]
+}
