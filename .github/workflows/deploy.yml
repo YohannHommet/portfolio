@@ -37,9 +37,23 @@ jobs:
       - name: 📝 Get commit message
         id: commit
         run: |
+          # Get commit message and properly escape it for GitHub Actions
           message=$(git log -1 --pretty=%B)
-          echo "message=$message" >> $GITHUB_OUTPUT
-          echo "Commit message: $message"
+          
+          # Use heredoc format for multiline output to avoid parsing issues
+          {
+            echo "message<<EOF"
+            echo "$message"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+          
+          # Display first line for logging (truncated if too long)
+          first_line=$(echo "$message" | head -n1)
+          if [ ${#first_line} -gt 100 ]; then
+            echo "Commit message: ${first_line:0:100}..."
+          else
+            echo "Commit message: $first_line"
+          fi
           
       - name: 🔍 Check deployment conditions
         id: check
