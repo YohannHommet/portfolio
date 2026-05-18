@@ -45,7 +45,7 @@
 
 # Service worker should never be cached
 [[headers]]
-  for = "/service-worker.js"
+  for = "/assets/js/service-worker.js"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 

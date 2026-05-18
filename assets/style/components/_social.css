@@ -25,7 +25,7 @@
   background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-secondary) 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+  -webkit-text-fill-color: transparent;
   color: var(--accent-color);
   border-color: var(--accent-color);
 }

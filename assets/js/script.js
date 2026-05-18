@@ -22,7 +22,8 @@
             themeToggle: '#theme-toggle',
             lightIcon: '#light-icon',
             darkIcon: '#dark-icon',
-            body: 'body'
+            body: 'body',
+            backToTop: '#back-to-top'
         },
         classes: {
             menuOpen: 'menu-open',
@@ -74,11 +75,11 @@
         DOMElements.lightIcon = document.getElementById(CONFIG.selectors.lightIcon.substring(1));
         DOMElements.darkIcon = document.getElementById(CONFIG.selectors.darkIcon.substring(1));
         DOMElements.body = document.body;
+        DOMElements.backToTop = document.getElementById(CONFIG.selectors.backToTop.substring(1));
         // Sections and nav links are queried dynamically or when needed due to their multiple instances
     }
 
     // --- STATE VARIABLES ---
-    let sectionOffsets = [];
     let scrollRAFId = null;
 
     // --- SMOOTH SCROLL ---
@@ -120,33 +121,35 @@
     }
 
     // --- NAVBAR SCROLL EFFECTS & ACTIVE SECTION HIGHLIGHTING ---
-    function cacheSectionDetails() {
+    function initSectionObserver() {
         const sections = document.querySelectorAll(CONFIG.selectors.sections);
-        sectionOffsets = Array.from(sections).map(section => ({
-            id: section.getAttribute('id'),
-            offsetTop: section.offsetTop,
-            element: section
-        }));
-    }
+        const navLinks = document.querySelectorAll(CONFIG.selectors.navLinks);
 
-    function updateActiveSection() {
-        const scrollY = window.pageYOffset;
-        let currentSectionId = '';
+        const options = {
+            root: null,
+            rootMargin: '-30% 0px -60% 0px', // Trigger when section is in the middle of viewport
+            threshold: 0
+        };
 
-        for (const section of sectionOffsets) {
-            if (scrollY >= (section.offsetTop - CONFIG.activeSectionOffset)) {
-                currentSectionId = section.id;
-            }
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.remove(CONFIG.classes.navLinkActive);
+                        link.setAttribute(CONFIG.attributes.ariaCurrent, 'false');
+                        
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add(CONFIG.classes.navLinkActive);
+                            link.setAttribute(CONFIG.attributes.ariaCurrent, 'page');
+                        }
+                    });
+                }
+            });
+        }, options);
 
-        document.querySelectorAll(CONFIG.selectors.navLinks).forEach(link => {
-            link.classList.remove(CONFIG.classes.navLinkActive);
-            link.setAttribute(CONFIG.attributes.ariaCurrent, 'false');
-            if (link.getAttribute('href') === `#${currentSectionId}`) {
-                link.classList.add(CONFIG.classes.navLinkActive);
-                link.setAttribute(CONFIG.attributes.ariaCurrent, 'page');
-            }
-        });
+        sections.forEach(section => observer.observe(section));
     }
 
     function handleScroll() {
@@ -154,50 +157,47 @@
             window.cancelAnimationFrame(scrollRAFId);
         }
         scrollRAFId = window.requestAnimationFrame(() => {
-            const currentScroll = window.pageYOffset;
+            const currentScroll = window.scrollY;
             if (DOMElements.navbar) {
                 currentScroll > CONFIG.navbarScrollThreshold
                     ? DOMElements.navbar.classList.add(CONFIG.classes.navbarScrolled)
                     : DOMElements.navbar.classList.remove(CONFIG.classes.navbarScrolled);
             }
-            updateActiveSection();
+            
+            if (DOMElements.backToTop) {
+                currentScroll > 500 
+                    ? DOMElements.backToTop.classList.add('visible') 
+                    : DOMElements.backToTop.classList.remove('visible');
+            }
         });
     }
 
     function initScrollEffects() {
-        cacheSectionDetails();
-        updateActiveSection(); // Initial call
+        initSectionObserver();
         window.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', debounce(cacheSectionDetails, CONFIG.resizeDebounceWait));
+        // Initial call for navbar state
+        handleScroll();
     }
 
     // --- SCROLL ANIMATIONS ---
     function initScrollAnimations() {
         const animatedElements = document.querySelectorAll('[data-aos]');
-        
-        function checkElementsInView() {
-            const windowHeight = window.innerHeight;
-            const scrollTop = window.pageYOffset;
-            
-            animatedElements.forEach((element, index) => {
-                const elementTop = element.offsetTop;
-                const elementHeight = element.offsetHeight;
-                const triggerPoint = scrollTop + windowHeight - 100;
-                
-                if (triggerPoint > elementTop) {
-                    const delay = element.getAttribute('data-aos-delay') || 0;
+
+        if (!animatedElements.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.getAttribute('data-aos-delay') || 0;
                     setTimeout(() => {
-                        element.classList.add('animate');
+                        entry.target.classList.add('animate');
                     }, parseInt(delay));
+                    observer.unobserve(entry.target);
                 }
             });
-        }
-        
-        // Initial check
-        checkElementsInView();
-        
-        // Check on scroll
-        window.addEventListener('scroll', debounce(checkElementsInView, 100));
+        }, { threshold: 0.1, rootMargin: '-100px' });
+
+        animatedElements.forEach(el => observer.observe(el));
     }
 
     // --- CONTACT FORM ---
@@ -213,8 +213,14 @@
         submitButton.disabled = true;
 
         try {
-            // Simulate form submission (replace with actual AJAX call if needed)
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const formData = new FormData(DOMElements.contactForm);
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(formData).toString()
+            });
+
+            if (!response.ok) throw new Error('Form submission failed');
 
             DOMElements.contactForm.reset();
             showNotification('Merci pour votre message ! Je vous répondrai bientôt.', 'success');
@@ -259,7 +265,7 @@
         setTimeout(() => {
             notification.classList.add(CONFIG.classes.notificationHiding);
             // Fallback removal in case animationend doesn't fire
-            setTimeout(removeNotification, CONFIG.notificationAnimationFallbackTimeout - CONFIG.notificationTimeout);
+            setTimeout(removeNotification, CONFIG.notificationAnimationFallbackTimeout);
         }, CONFIG.notificationTimeout);
 
         notification.addEventListener('animationend', removeNotification);
@@ -332,6 +338,14 @@
         }
     }
 
+    // --- FOOTER YEAR ---
+    function initFooterYear() {
+        const yearEl = document.getElementById('current-year');
+        if (yearEl) {
+            yearEl.textContent = new Date().getFullYear();
+        }
+    }
+
     // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', () => {
         cacheDOMElements();
@@ -342,6 +356,7 @@
         initContactForm();
         initThemeManagement();
         initServiceWorker();
+        initFooterYear();
     });
 
 })();

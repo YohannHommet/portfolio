@@ -1,3 +1,24 @@
+/* Skip to content link for accessibility */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-color);
+  color: white;
+  padding: 1rem 2rem;
+  z-index: 9999;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0 0 15px 15px;
+  transition: top 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 /* Classe utilitaire pour masquer visuellement du contenu tout en le gardant accessible aux lecteurs d'écran */
 .sr-only {
   position: absolute;

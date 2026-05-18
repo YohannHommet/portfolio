@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 html {
@@ -15,4 +14,16 @@ body {
   color: var(--text-color);
   background-color: var(--background-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme transition for key elements */
+.navbar,
+.skill-card,
+.experience-card,
+.contact-form,
+.footer,
+.notification,
+.form-group input,
+.form-group textarea {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
