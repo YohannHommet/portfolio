@@ -19,7 +19,7 @@
     "browser-sync": "^3.0.4",
     "copyfiles": "^2.4.1",
     "cssnano": "^6.0.1",
-    "postcss": "^8.4.23",
+    "postcss": "^8.5.18",
     "postcss-cli": "^10.1.0",
     "postcss-import": "^16.1.0",
     "terser": "^5.17.1"
