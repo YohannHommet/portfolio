@@ -44,16 +44,16 @@
   --text-color-secondary: #585e67;
   --text-color-muted: #8b929d;
 
-  /* Primary Accent - Ambre Chaud */
-  --accent-color: #d97706;
-  --accent-color-hover: #b45309;
-  --accent-subtle: rgba(217, 119, 6, 0.08);
-  --accent-subtle-border: rgba(217, 119, 6, 0.22);
-  --accent-glow: rgba(217, 119, 6, 0.16);
+  /* Primary Accent - Ambre Chaud (WCAG 2.2 AA compliant > 4.5:1) */
+  --accent-color: #b45309;
+  --accent-color-hover: #92400e;
+  --accent-subtle: rgba(180, 83, 9, 0.08);
+  --accent-subtle-border: rgba(180, 83, 9, 0.22);
+  --accent-glow: rgba(180, 83, 9, 0.16);
 
-  /* Secondary Accent - Vert Sauge / Menthe Cyprès (Équilibre & Sérénité) */
-  --accent-secondary: #0d9488;
-  --accent-secondary-hover: #0f766e;
+  /* Secondary Accent - Vert Sauge / Menthe Cyprès (WCAG 2.2 AA compliant > 4.5:1) */
+  --accent-secondary: #0f766e;
+  --accent-secondary-hover: #115e59;
   --accent-secondary-subtle: rgba(13, 148, 136, 0.08);
   --accent-secondary-border: rgba(13, 148, 136, 0.22);
   --accent-secondary-glow: rgba(13, 148, 136, 0.16);

@@ -817,10 +817,57 @@
         ctx.fillText(node.label, node.x, labelY);
       });
 
-      animationFrameId = requestAnimationFrame(animate);
+      if (isIntersecting && isTabActive && !prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        animationFrameId = null;
+      }
     }
 
-    animationFrameId = requestAnimationFrame(animate);
+    // Performance & Accessibility: Pause loop when offscreen, backgrounded, or reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let isIntersecting = true;
+    let isTabActive = !document.hidden;
+
+    function startAnimation() {
+      if (!animationFrameId && isIntersecting && isTabActive && !prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    }
+
+    function stopAnimation() {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    }
+
+    const canvasObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isIntersecting = entry.isIntersecting;
+        if (isIntersecting) {
+          startAnimation();
+        } else {
+          stopAnimation();
+        }
+      });
+    }, { threshold: 0.05 });
+    canvasObserver.observe(canvas);
+
+    document.addEventListener("visibilitychange", () => {
+      isTabActive = !document.hidden;
+      if (isTabActive) {
+        startAnimation();
+      } else {
+        stopAnimation();
+      }
+    });
+
+    if (prefersReducedMotion) {
+      animate(); // Single frame render
+    } else {
+      startAnimation();
+    }
   }
 
   // --- FOOTER YEAR ---
