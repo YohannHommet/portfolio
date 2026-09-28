@@ -1,21 +1,112 @@
 :root {
-  --background-color: #ffffff;
-  --text-color: #1a1a1a;
-  --text-color-secondary: #666666;
-  --accent-color: #00a8e8;
-  --accent-color-secondary: #7928ca;
-  --surface-color: rgba(0, 0, 0, 0.03);
-  --card-background: rgba(255, 255, 255, 0.8);
-  --navbar-bg-scrolled: rgba(255, 255, 255, 0.95);
-  --border-color: rgba(0, 0, 0, 0.1);
+  /* Fonts */
+  --font-title:
+    "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    "Fira Code", "Geist Mono", "SF Mono", "JetBrains Mono", monospace;
+
+  /* Border Radii - Crisp & Architectural */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* High-End Motion & Easing Curves */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Transitions */
+  --transition-fast: 0.18s var(--ease-out-expo);
+  --transition-smooth: 0.35s var(--ease-out-expo);
+  --transition-spring: 0.5s var(--ease-spring);
+
+  /* Shadows - Minimalist & Utilitarian */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.06);
+
+  /* Light Theme Colors - Warm Bone / Editorial Technical */
+  --background-color: #faf9f6;
+  --surface-color: #f3f1ea;
+  --surface-muted: #eae8df;
+  --card-background: #ffffff;
+  --card-hover-bg: #ffffff;
+  --navbar-bg-scrolled: rgba(250, 249, 246, 0.88);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-color-strong: rgba(0, 0, 0, 0.16);
+
+  --text-color: #121417;
+  --text-color-secondary: #585e67;
+  --text-color-muted: #8b929d;
+
+  /* Primary Accent - Ambre Chaud */
+  --accent-color: #d97706;
+  --accent-color-hover: #b45309;
+  --accent-subtle: rgba(217, 119, 6, 0.08);
+  --accent-subtle-border: rgba(217, 119, 6, 0.22);
+  --accent-glow: rgba(217, 119, 6, 0.16);
+
+  /* Secondary Accent - Vert Sauge / Menthe Cyprès (Équilibre & Sérénité) */
+  --accent-secondary: #0d9488;
+  --accent-secondary-hover: #0f766e;
+  --accent-secondary-subtle: rgba(13, 148, 136, 0.08);
+  --accent-secondary-border: rgba(13, 148, 136, 0.22);
+  --accent-secondary-glow: rgba(13, 148, 136, 0.16);
+
+  /* Status Colors */
+  --color-success: #059669;
+  --color-success-bg: #ecfdf5;
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-danger: #b91c1c;
+  --color-danger-bg: #fef2f2;
+
+  --glass-blur: blur(12px);
+  --card-glow: rgba(217, 119, 6, 0.05);
 }
 
 [data-theme="dark"] {
-  --background-color: #0a0a0a;
-  --text-color: rgba(255, 255, 255, 0.95);
-  --text-color-secondary: rgba(255, 255, 255, 0.7);
-  --surface-color: rgba(255, 255, 255, 0.05);
-  --card-background: rgba(0, 0, 0, 0.3);
-  --navbar-bg-scrolled: rgba(0, 0, 0, 0.95);
-  --border-color: rgba(255, 255, 255, 0.15);
+  /* Dark Theme Colors - Matte Carbon & CRT Telemetry */
+  --background-color: #080a0f;
+  --surface-color: #0e1219;
+  --surface-muted: #151b24;
+  --card-background: #11151f;
+  --card-hover-bg: #141926;
+  --navbar-bg-scrolled: rgba(8, 10, 15, 0.88);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-strong: rgba(255, 255, 255, 0.16);
+
+  --text-color: #f1f5f9;
+  --text-color-secondary: #94a3b8;
+  --text-color-muted: #64748b;
+
+  /* Primary Accent - Ambre Phosphore (#fbbf24) */
+  --accent-color: #fbbf24;
+  --accent-color-hover: #fcd34d;
+  --accent-subtle: rgba(251, 191, 36, 0.09);
+  --accent-subtle-border: rgba(251, 191, 36, 0.25);
+  --accent-glow: rgba(251, 191, 36, 0.2);
+
+  /* Secondary Accent - Vert Sauge / Menthe Cyprès (#2dd4bf / #34d399) */
+  --accent-secondary: #2dd4bf;
+  --accent-secondary-hover: #5eead4;
+  --accent-secondary-subtle: rgba(45, 212, 191, 0.09);
+  --accent-secondary-border: rgba(45, 212, 191, 0.25);
+  --accent-secondary-glow: rgba(45, 212, 191, 0.2);
+
+  /* Status Colors */
+  --color-success: #34d399;
+  --color-success-bg: rgba(52, 211, 153, 0.12);
+  --color-warning: #fbbf24;
+  --color-warning-bg: rgba(251, 191, 36, 0.12);
+  --color-danger: #f87171;
+  --color-danger-bg: rgba(248, 113, 113, 0.12);
+
+  --glass-blur: blur(12px);
+  --card-glow: rgba(251, 191, 36, 0.06);
 }

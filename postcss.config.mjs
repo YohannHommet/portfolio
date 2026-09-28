@@ -1,8 +1,12 @@
-module.exports = {
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+import postcssImport from 'postcss-import';
+
+export default {
   plugins: [
-    require('postcss-import'),
-    require('autoprefixer'),
-    require('cssnano')({
+    postcssImport(),
+    autoprefixer(),
+    cssnano({
       preset: ['default', {
         discardComments: { removeAll: true },
         normalizeWhitespace: true,

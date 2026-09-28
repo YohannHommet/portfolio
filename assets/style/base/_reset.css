@@ -6,24 +6,33 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   line-height: 1.6;
   color: var(--text-color);
   background-color: var(--background-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: var(--transition-smooth);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  letter-spacing: -0.02em;
 }
 
 /* Theme transition for key elements */
 .navbar,
 .skill-card,
+.bento-card,
 .experience-card,
 .contact-form,
 .footer,
 .notification,
 .form-group input,
 .form-group textarea {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  transition: var(--transition-smooth);
 }
+

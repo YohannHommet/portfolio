@@ -27,3 +27,6 @@ dist/
 *.bak
 *.tmp 
 .gstack/
+
+# Agent files
+.agent/

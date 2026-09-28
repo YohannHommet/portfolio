@@ -1,134 +1,174 @@
+/* Layout - Navbar */
 .navbar {
   position: fixed;
-  width: 95%;
-  max-width: 1400px;
-  top: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid var(--border-color);
-  padding: 0 1rem;
-  transition: all 0.3s ease;
-  border-radius: 100px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-}
-
-.navbar::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
   width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 5%, var(--accent-color) 50%, transparent 100%);
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: var(--navbar-bg-scrolled);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--border-color);
+  transition:
+    background-color var(--transition-smooth),
+    border-color var(--transition-smooth);
 }
 
 .navbar-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 3.5rem;
+  height: 3.75rem;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
 }
 
 .logo {
-  font-size: 2rem;
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-secondary) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-decoration: none;
+  letter-spacing: -0.02em;
+  color: var(--text-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.logo-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.logo-role {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-color-muted);
+  display: none;
+}
+
+@media (min-width: 860px) {
+  .logo-role {
+    display: inline-block;
+  }
 }
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 1.75rem;
   align-items: center;
 }
 
 .nav-link {
-  color: var(--text-color);
+  color: var(--text-color-secondary);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 500;
-  padding: 0.3rem 0;
+  padding: 0.4rem 0;
   position: relative;
-  transition: color 0.3s ease;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--accent-color);
-  transition: width 0.3s ease;
+  transition: color var(--transition-fast);
 }
 
 .nav-link:hover {
-  color: var(--accent-color);
-  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-secondary) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.nav-link:hover::after {
-  width: 100%;
+  color: var(--text-color);
 }
 
 .nav-link.active {
   color: var(--accent-color);
+  font-weight: 600;
 }
 
 .nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
+  height: 1.5px;
+  background-color: var(--accent-color);
 }
 
-/* Menu mobile */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+#theme-toggle {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  color: var(--text-color-secondary);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+#theme-toggle:hover {
+  color: var(--text-color);
+  background-color: var(--surface-color);
+  border-color: var(--border-color-strong);
+}
+
+.theme-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+/* Mobile Menu Toggle */
 .menu-toggle {
   display: none;
   background: none;
-  border: none;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   padding: 0.5rem;
+  color: var(--text-color);
   z-index: 1001;
 }
 
 .menu-icon {
   display: block;
   position: relative;
-  width: 24px;
+  width: 20px;
   height: 2px;
   background-color: var(--text-color);
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-fast);
 }
 
 .menu-icon::before,
 .menu-icon::after {
-  content: '';
+  content: "";
   position: absolute;
-  width: 24px;
+  width: 20px;
   height: 2px;
   background-color: var(--text-color);
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-fast);
 }
 
 .menu-icon::before {
-  top: -8px;
+  top: -6px;
 }
 
 .menu-icon::after {
-  bottom: -8px;
+  bottom: -6px;
 }
 
 [aria-expanded="true"] .menu-icon {
@@ -145,7 +185,7 @@
   bottom: 0;
 }
 
-/* Styles pour le menu mobile */
+/* Mobile view */
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
@@ -153,22 +193,21 @@
 
   .nav-links {
     position: fixed;
-    top: 0;
-    right: -100%;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background-color: var(--background-color);
+    top: 3.75rem;
+    left: 0;
+    right: 0;
+    background-color: var(--card-background);
+    border-bottom: 1px solid var(--border-color);
     flex-direction: column;
-    justify-content: center;
-    padding: 2rem;
-    transition: right 0.3s ease;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    align-items: flex-start;
+    padding: 1.5rem;
+    gap: 1rem;
+    display: none;
+    box-shadow: var(--shadow-lg);
   }
 
   .nav-links.active {
-    right: 0;
+    display: flex;
   }
 
   body.menu-open {
@@ -176,20 +215,8 @@
   }
 
   .nav-link {
-    font-size: 1.2rem;
-    padding: 1rem 0;
+    font-size: 1rem;
+    width: 100%;
+    padding: 0.5rem 0;
   }
-}
-
-#theme-toggle {
-  all: unset;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.theme-icon {
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: pointer;
-  transform: translateY(1px);
 }

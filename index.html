@@ -1,462 +1,1338 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+      />
+    </noscript>
 
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  </noscript>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css"
+      integrity="sha384-DjehTlU5SubGD1zUGe78SkwLgw+q2y9DXnmy3EaDbXA9nvFMPW3LP5verNrWr9rW"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="assets/style/styles.css" />
 
-  <link rel="stylesheet" type="text/css" 
-    href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css" 
-    integrity="sha384-DjehTlU5SubGD1zUGe78SkwLgw+q2y9DXnmy3EaDbXA9nvFMPW3LP5verNrWr9rW" 
-    crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer">
-  <link rel="stylesheet" href="assets/style/styles.css">
+    <title>
+      Yohann Hommet · Systems, Network Protocols & Developer Tooling
+    </title>
+    <meta
+      name="description"
+      content="Portfolio de Yohann Hommet, Software Engineer. Conception de moteurs de données zéro-allocation (walspool), protocoles P2P chiffrés (wisp), serveurs MCP et outillage IA en Go et Rust."
+    />
+    <meta
+      name="keywords"
+      content="Yohann Hommet, Software Engineer, Go, Rust, Systems, Distributed Systems, QUIC, TLS 1.3, OpenTelemetry, OTLP, MCP, Developer Tooling"
+    />
+    <meta name="author" content="Yohann Hommet" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://yohann-hommet.netlify.app/" />
 
-  <meta name="description"
-    content="Portfolio de Yohann Hommet, développeur full-stack spécialisé en Vue.js et Laravel. Découvrez mes projets et compétences en développement web.">
-  <meta name="keywords"
-    content="développeur full stack, développeur vue.js, développeur laravel, développement web, Yohann Hommet">
-  <meta name="author" content="Yohann HOMMET">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yohann-hommet.netlify.app/">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yohann-hommet.netlify.app/" />
+    <meta
+      property="og:title"
+      content="Yohann Hommet · Systems, Network Protocols & Developer Tooling"
+    />
+    <meta
+      property="og:description"
+      content="Software Engineer spécialisé dans les moteurs de données zéro-allocation, les protocoles P2P (QUIC, SPAKE2) et l'observabilité agentique en Go et Rust."
+    />
+    <meta property="og:image" content="/assets/favicon/og-image.png" />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yohann-hommet.netlify.app/">
-  <meta property="og:title" content="Yohann Hommet | Développeur Full Stack">
-  <meta property="og:description"
-    content="Portfolio de Yohann Hommet, développeur full-stack spécialisé en Vue.js et Laravel. Découvrez mes projets et compétences en développement web.">
-  <meta property="og:image" content="/assets/favicon/og-image.png">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Yohann Hommet · Systems, Network Protocols & Developer Tooling"
+    />
+    <meta
+      name="twitter:description"
+      content="Software Engineer spécialisé dans les moteurs de données zéro-allocation, les protocoles P2P (QUIC, SPAKE2) et l'observabilité agentique en Go et Rust."
+    />
+    <meta name="twitter:image" content="/assets/favicon/og-image.png" />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Yohann Hommet | Développeur Full Stack">
-  <meta name="twitter:description"
-    content="Portfolio de Yohann Hommet, développeur full-stack spécialisé en Vue.js et Laravel. Découvrez mes projets et compétences en développement web.">
-  <meta name="twitter:image" content="/assets/favicon/og-image.png">
+    <!-- Favicon tags -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/assets/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/assets/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="Yohann Hommet" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#080a0f" />
 
-  <!-- Favicon tags -->
-  <link rel="icon" type="image/png" href="/assets/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/assets/favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="Yohann Hommet" />
-  <link rel="manifest" href="/site.webmanifest">
-  <meta name="msapplication-TileColor" content="#00a8e8">
-  <meta name="theme-color" content="#ffffff">
+    <link rel="modulepreload" href="assets/js/script.js" />
+  </head>
 
-  <link rel="modulepreload" href="assets/js/script.js">
+  <body>
+    <a href="#main-content" class="skip-link">Passer au contenu principal</a>
 
-  <title>Yohann Hommet | Développeur Full Stack</title>
-</head>
+    <!-- Navigation -->
+    <nav class="navbar" aria-label="Navigation principale">
+      <div class="navbar-content">
+        <a
+          href="#home"
+          class="brand-wrapper"
+          aria-label="Accueil Yohann Hommet"
+        >
+          <span class="logo">YH<span class="logo-dot"></span></span>
+          <span class="logo-role">Software Engineer</span>
+        </a>
 
-<body>
-  <a href="#main-content" class="skip-link">Passer au contenu principal</a>
-  <nav class="navbar" aria-label="Navigation principale">
-    <div class="navbar-content">
-      <a href="#home" class="logo" aria-label="Accueil">YH</a>
-      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="nav-links"
-        aria-label="Menu de navigation">
-        <span class="sr-only">Menu</span>
-        <span class="menu-icon"></span>
-      </button>
-      <div class="nav-links" id="nav-links">
-        <a href="#home" class="nav-link">Accueil</a>
-        <a href="#about" class="nav-link">À propos</a>
-        <a href="#experience" class="nav-link">Expérience</a>
-        <a href="#projects" class="nav-link">Projets</a>
-        <a href="#contact" class="nav-link">Contact</a>
-        <button id="theme-toggle" aria-label="Basculer le thème" type="button">
-          <i class="fa-regular fa-sun theme-icon" aria-hidden="true" id="light-icon"></i>
-          <i class="fa-regular fa-moon theme-icon" aria-hidden="true" id="dark-icon"></i>
+        <button
+          id="menu-toggle"
+          class="menu-toggle"
+          aria-expanded="false"
+          aria-controls="nav-links"
+          aria-label="Menu de navigation"
+        >
+          <span class="sr-only">Menu</span>
+          <span class="menu-icon"></span>
         </button>
-      </div>
-    </div>
-  </nav>
 
-  <header class="hero" id="home">
-    <div class="hero-content">
-      <div class="hero-text">
-        <span class="hero-greeting">Bonjour 👋, je suis</span>
-        <h1>Yohann Hommet</h1>
-        <p class="hero-title">Développeur Full Stack</p>
-        <p class="hero-description">Je crée des solutions web élégantes avec Vue.js et Laravel, transformant des
-          problèmes complexes en expériences utilisateur belles et conviviales.</p>
-        <div class="hero-buttons">
-          <a href="#projects" class="btn btn-primary">
-            Voir mes projets
-            <i class="fa-solid fa-chevron-right hero-buttons__icon" aria-hidden="true"></i>
-          </a>
-          <a href="/assets/documents/cv_yohann_hommet.pdf" class="btn btn-outline" download
-            aria-label="Télécharger mon CV au format PDF">
-            Télécharger CV
-            <svg class="download-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 12L3 7L4.4 5.55L7 8.15V1H9V8.15L11.6 5.55L13 7L8 12ZM2 14V11H4V13H12V11H14V14H2Z"
-                fill="currentColor" />
-            </svg>
-          </a>
-        </div>
-        <div class="hero-social">
-          <a href="https://github.com/YohannHommet" target="_blank" rel="noopener noreferrer" class="social-link"
-            title="GitHub" aria-label="Visiter mon profil GitHub">
-            <i class="devicon-github-plain" aria-hidden="true"></i>
-          </a>
-          <a href="https://linkedin.com/in/yohann-hommet" target="_blank" rel="noopener noreferrer" class="social-link"
-            title="LinkedIn" aria-label="Visiter mon profil LinkedIn">
-            <i class="devicon-linkedin-plain" aria-hidden="true"></i>
-          </a>
-          <a href="mailto:yohann.hommet@outlook.com" class="social-link" aria-label="M'envoyer un email">
-            <i class="fas fa-envelope" aria-hidden="true"></i>
-          </a>
+        <div class="nav-links" id="nav-links">
+          <a href="#about" class="nav-link">Philosophie</a>
+          <a href="#projects" class="nav-link">Systèmes & Projets</a>
+          <a href="#experience" class="nav-link">Parcours</a>
+          <a href="#contact" class="nav-link">Contact</a>
+          <div class="nav-actions">
+            <a
+              href="/assets/documents/cv_yohann_hommet.pdf"
+              class="btn btn-outline btn-sm"
+              download
+              aria-label="Télécharger mon CV au format PDF"
+            >
+              CV.pdf
+            </a>
+            <button
+              id="theme-toggle"
+              aria-label="Basculer vers le mode sombre"
+              type="button"
+            >
+              <i
+                class="fa-regular fa-sun theme-icon"
+                aria-hidden="true"
+                id="light-icon"
+              ></i>
+              <i
+                class="fa-regular fa-moon theme-icon"
+                aria-hidden="true"
+                id="dark-icon"
+              ></i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <a href="#about" class="hero-scroll" aria-label="Défiler vers la section À propos">
-      <span class="hero-scroll__text">Défiler pour explorer</span>
-      <i class="fa-solid fa-chevron-down hero-scroll__arrow" aria-hidden="true"></i>
-    </a>
-  </header>
+    </nav>
 
-  <main id="main-content">
-    <section id="about" class="section section__about animate-on-scroll" aria-labelledby="about-heading">
-      <div class="section-container">
-        <div class="section-header">
-          <span class="section-subtitle">À propos de moi</span>
-          <h2 id="about-heading">Création d'expériences digitales</h2>
-        </div>
-        <div class="about-text">
-          <p>Je suis un développeur Full Stack spécialisé en Vue.js et Laravel, passionné par la création de solutions
-            web élégantes et efficaces. Avec une solide base en développement front-end et back-end, je donne vie aux
-            idées grâce à un code propre et des expériences utilisateur intuitives.</p>
-        </div>
-      </div>
-      <div class="skills-grid">
-        <div class="skill-card">
-          <i class="devicon-vuejs-plain" aria-hidden="true"></i>
-          <h3>Vue.js</h3>
-        </div>
-        <div class="skill-card">
-          <i class="devicon-laravel-plain" aria-hidden="true"></i>
-          <h3>Laravel</h3>
-        </div>
-        <div class="skill-card">
-          <i class="devicon-javascript-plain" aria-hidden="true"></i>
-          <h3>JavaScript</h3>
-        </div>
-        <div class="skill-card">
-          <i class="devicon-php-plain" aria-hidden="true"></i>
-          <h3>PHP</h3>
-        </div>
-        <div class="skill-card">
-          <i class="devicon-typescript-plain" aria-hidden="true"></i>
-          <h3>TypeScript</h3>
-        </div>
-        <div class="skill-card">
-          <i class="devicon-bash-plain" aria-hidden="true"></i>
-          <h3>Bash</h3>
-        </div>
-        <div class="skill-card">
-          <i class="devicon-docker-plain" aria-hidden="true"></i>
-          <h3>Docker</h3>
-        </div>
-        <div class="skill-card">
-          <i class="devicon-ubuntu-plain" aria-hidden="true"></i>
-          <h3>Ubuntu</h3>
-        </div>
-      </div>
-    </section>
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+      <div class="hero-content">
+        <div class="hero-text reveal-on-scroll">
+          <span class="hero-eyebrow">
+            <span class="pulse-dot pulse-dot--mint"></span>
+            Systems & Protocols · France
+          </span>
 
-    <section id="experience" class="section section__experience animate-on-scroll" aria-labelledby="experience-heading">
-      <div class="section-container">
-        <div class="section-header">
-          <span class="section-subtitle">Mon parcours</span>
-          <h2 id="experience-heading">Expérience professionnelle</h2>
+          <h1>Yohann Hommet</h1>
+          <p class="hero-title">
+            Software Engineer · <strong>Distributed Systems & Protocols</strong>
+          </p>
+
+          <p class="hero-description">
+            Je conçois des moteurs de données zéro-allocation, des protocoles
+            pair-à-pair chiffrés et des infrastructures développeur en
+            <strong>Go</strong> et <strong>Rust</strong> — sous de stricts
+            principes d'architecture boîte noire.
+          </p>
+
+          <div class="hero-meta">
+            <span class="meta-chip"
+              ><i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+              Cholet / Remote</span
+            >
+            <span class="meta-chip"
+              ><i class="fa-solid fa-briefcase" aria-hidden="true"></i>
+              Ignimission</span
+            >
+            <span class="meta-chip"
+              ><i class="devicon-go-plain" aria-hidden="true"></i> Go</span
+            >
+            <span class="meta-chip"
+              ><i class="devicon-rust-plain" aria-hidden="true"></i> Rust</span
+            >
+            <span class="meta-chip"
+              ><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> QUIC
+              & TLS 1.3</span
+            >
+            <span class="meta-chip"
+              ><i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+              OpenTelemetry</span
+            >
+          </div>
+
+          <div class="hero-buttons">
+            <a href="#projects" class="btn btn-primary">
+              Explorer les projets
+              <i
+                class="fa-solid fa-arrow-right hero-buttons__icon"
+                aria-hidden="true"
+              ></i>
+            </a>
+            <a href="#about" class="btn btn-outline">
+              Philosophie d'architecture
+            </a>
+          </div>
+
+          <div class="hero-social">
+            <a
+              href="https://github.com/YohannHommet"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="GitHub"
+              aria-label="Profil GitHub de Yohann Hommet"
+            >
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://linkedin.com/in/yohann-hommet"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="LinkedIn"
+              aria-label="Profil LinkedIn de Yohann Hommet"
+            >
+              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+            </a>
+            <a
+              href="mailto:yohann.hommet@outlook.com"
+              class="social-link"
+              aria-label="Envoyer un email à Yohann Hommet"
+            >
+              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            </a>
+          </div>
         </div>
-        <div class="timeline">
-          <div class="timeline-item" data-aos="fade-up">
-            <div class="timeline-marker">
-              <div class="timeline-dot"></div>
+
+        <!-- Right Column: Interactive Systems Workbench -->
+        <div class="hero-visual reveal-on-scroll stagger-2">
+          <div class="system-workbench">
+            <div class="workbench-header">
+              <div class="workbench-status">
+                <span class="pulse-dot pulse-dot--amber"></span>
+                <span>ENGINE: OPERATIONAL</span>
+              </div>
+              <span class="workbench-id">TARGET: GO / RUST / OTEL</span>
             </div>
-            <div class="timeline-content">
-              <div class="timeline-date">Mars 2022 - Présent</div>
-              <div class="experience-card">
-                <h3 class="job-title">Développeur Fullstack</h3>
-                <p class="company">Ignimission • Angers</p>
-                <div class="job-description">
-                  <p>Développement et maintenance d'applications web complexes avec Laravel et Vue.js, incluant la
-                    refonte d'architectures monolithiques vers microservices.</p>
-                </div>
-                <ul class="achievements">
-                  <li>Optimisation et maintenance d'un backend legacy Laravel centralisant la logique métier</li>
-                  <li>Développement d'une API Gateway avec Loopback orchestrant la communication entre microservices
-                  </li>
-                  <li>Conception d'applications Vue.js (Vue2 & Vue3) avec bibliothèque de composants dédiée</li>
-                  <li>Refonte modulaire d'un backend monolithique en microservices spécialisés</li>
-                  <li>Migration d'applications de vue 2 à vue 3</li>
-                  <li>Mise en place d'une architecture modulaire pour le frontend et d'outils modernes pour le
-                    développement (Vite, Pinia, VueUse, etc.)</li>
-                </ul>
-                <div class="tech-stack">
-                  <span class="tech-badge">Laravel</span>
-                  <span class="tech-badge">PostgreSQL</span>
-                  <span class="tech-badge">Vue 2/3</span>
-                  <span class="tech-badge">API Gateway</span>
-                  <span class="tech-badge">Loopback</span>
-                  <span class="tech-badge">Microservices</span>
+
+            <div class="workbench-tabs" role="tablist">
+              <button
+                class="workbench-tab active"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-walspool"
+                id="tab-walspool"
+                type="button"
+              >
+                <i class="devicon-go-plain" aria-hidden="true"></i> walspool.go
+              </button>
+              <button
+                class="workbench-tab"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-wisp"
+                id="tab-wisp"
+                type="button"
+              >
+                <i class="devicon-rust-plain" aria-hidden="true"></i> wisp.rs
+              </button>
+              <button
+                class="workbench-tab"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-topology"
+                id="tab-topology"
+                type="button"
+              >
+                <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+                topology.sys
+              </button>
+            </div>
+
+            <div class="workbench-body">
+              <!-- Panel 1: walspool.go -->
+              <div
+                class="workbench-panel active"
+                id="panel-walspool"
+                role="tabpanel"
+                aria-labelledby="tab-walspool"
+              >
+                <pre
+                  class="code-snippet"
+                ><code><span class="code-comment">// walspool: zero-alloc in-process WAL & OTel hub</span>
+<span class="code-keyword">type</span> <span class="code-type">Engine</span> <span class="code-keyword">struct</span> {
+    ringBuf   *ring.<span class="code-type">Buffer</span>   <span class="code-comment">// Lock-free circular segment</span>
+    diskSpool *wal.<span class="code-type">Writer</span>    <span class="code-comment">// Crash-resilient mmap segment</span>
+    stream    <span class="code-keyword">chan</span> otlp.<span class="code-type">Span</span>
+}
+
+<span class="code-keyword">func</span> (e *<span class="code-type">Engine</span>) <span class="code-fn">Push</span>(span otlp.<span class="code-type">Span</span>) <span class="code-type">error</span> {
+    <span class="code-keyword">if</span> e.ringBuf.<span class="code-fn">TryPush</span>(span) {
+        <span class="code-keyword">return</span> <span class="code-keyword">nil</span> <span class="code-comment">// 0 heap allocations</span>
+    }
+    <span class="code-keyword">return</span> e.diskSpool.<span class="code-fn">SyncReplay</span>(span) <span class="code-comment">// Sub-ms replay</span>
+}</code></pre>
+              </div>
+
+              <!-- Panel 2: wisp.rs -->
+              <div
+                class="workbench-panel"
+                id="panel-wisp"
+                role="tabpanel"
+                aria-labelledby="tab-wisp"
+              >
+                <pre
+                  class="code-snippet"
+                ><code><span class="code-comment">// wisp: 1-RTT encrypted P2P transfer over QUIC</span>
+<span class="code-keyword">pub struct</span> <span class="code-type">PeerSession</span> {
+    transport: quinn::<span class="code-type">Connection</span>,
+    cipher: ChaCha20Poly1305,
+    verifier: blake3::<span class="code-type">Hasher</span>,
+}
+
+<span class="code-keyword">impl</span> <span class="code-type">PeerSession</span> {
+    <span class="code-keyword">pub async fn</span> <span class="code-fn">handshake</span>(pw: &amp;[<span class="code-type">u8</span>]) -&gt; <span class="code-type">Result</span>&lt;<span class="code-type">Self</span>, <span class="code-type">ProtocolError</span>&gt; {
+        <span class="code-keyword">let</span> key = spake2::<span class="code-fn">exchange</span>(pw).<span class="code-keyword">await</span>?;
+        <span class="code-keyword">let</span> stream = transport.<span class="code-fn">open_bi</span>().<span class="code-keyword">await</span>?;
+        <span class="code-type">Ok</span>(<span class="code-type">Self</span>::<span class="code-fn">new</span>(stream, key))
+    }
+}</code></pre>
+              </div>
+
+              <!-- Panel 3: topology.sys -->
+              <div
+                class="workbench-panel"
+                id="panel-topology"
+                role="tabpanel"
+                aria-labelledby="tab-topology"
+              >
+                <div class="topology-wrapper" id="profile-card-3d">
+                  <canvas id="neural-expressive-canvas"></canvas>
                 </div>
               </div>
             </div>
+
+            <div class="workbench-footer">
+              <span>ALLOCS: <strong class="metric-pill">0 / op</strong></span>
+              <span
+                >HANDSHAKE:
+                <strong class="metric-pill metric-pill--mint"
+                  >1-RTT</strong
+                ></span
+              >
+              <span
+                >RECOVERY:
+                <strong class="metric-pill metric-pill--mint"
+                  >&lt;1ms</strong
+                ></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <!-- Philosophy & Principles Section -->
+      <section
+        id="about"
+        class="section section__about"
+        aria-labelledby="about-heading"
+      >
+        <div class="section-container">
+          <div class="section-header reveal-on-scroll">
+            <span class="section-subtitle">Philosophie & Principes</span>
+            <h2 id="about-heading">
+              Architecture Boîte Noire & Systèmes Robustes
+            </h2>
+            <p class="section-intro">
+              Construire des composants profonds avec des interfaces publiques
+              étroites, une gestion explicite des erreurs et zéro fuite d'état
+              interne.
+            </p>
           </div>
 
-          <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
-            <div class="timeline-marker">
+          <div class="bento-grid">
+            <!-- Card 1: Black-Box Architecture -->
+            <article
+              class="bento-card bento-card--philosophy reveal-on-scroll stagger-1"
+            >
+              <span class="bento-badge">Principe Directeur</span>
+              <h3>Modules Profonds & Contrôle Zéro-Allocation</h3>
+              <p>
+                Les meilleurs systèmes masquent une complexité majeure derrière
+                des APIs minimalistes. Dans mes moteurs Go et protocoles Rust,
+                chaque structure est conçue pour minimiser la pression sur le
+                garbage collector, privilégier la localité de cache et résister
+                aux crashs machine sans altération d'état.
+              </p>
+              <ul class="philosophy-bullets">
+                <li>
+                  <strong>Zéro allocation sur le chemin critique :</strong>
+                  Utilisation de ring-buffers pré-alloués et mmap pour absorber
+                  les pics de trafic.
+                </li>
+                <li>
+                  <strong>Résilient aux pannes :</strong> Rejeu sub-milliseconde
+                  via Write-Ahead Log synchronisé sur disque sans perte
+                  d'événements.
+                </li>
+                <li>
+                  <strong>Sécurité cryptographique par défaut :</strong>
+                  Chiffrement direct point-à-point, échanges de clés SPAKE2 (RFC
+                  9382) et hachage streaming BLAKE3.
+                </li>
+              </ul>
+            </article>
+
+            <!-- Card 2: Production Context & Status -->
+            <article
+              class="bento-card bento-card--status bento-card--mint reveal-on-scroll stagger-2"
+            >
+              <span class="bento-badge bento-badge--mint"
+                >Production Actuelle</span
+              >
+              <h3>Ingénierie en Production</h3>
+              <div class="status-row">
+                <span class="status-dot"></span>
+                <span>Software Engineer chez Ignimission</span>
+              </div>
+              <p>
+                Conception d'architectures applicatives complexes, refonte
+                monolithique vers microservices et API Gateways orchestrant des
+                flux de données critiques.
+              </p>
+              <div class="status-meta">
+                <span>Localisation : Cholet / Angers & Remote</span>
+                <span>Environnement : Linux, Zed, Claude Code, OTel</span>
+              </div>
+            </article>
+
+            <!-- Card 3: Core Toolchain -->
+            <article
+              class="bento-card bento-card--stack reveal-on-scroll stagger-3"
+            >
+              <span class="bento-badge bento-badge--mint">Boîte à Outils</span>
+              <h3>Stack Technique & Primitives d'Ingénierie</h3>
+              <div class="tech-grid">
+                <div class="tech-group">
+                  <div class="tech-group-title">Systèmes & Langages</div>
+                  <div class="tech-chips">
+                    <span class="tech-chip"
+                      ><i class="devicon-go-plain" aria-hidden="true"></i>
+                      Go</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="devicon-rust-plain" aria-hidden="true"></i>
+                      Rust</span
+                    >
+                    <span class="tech-chip"
+                      ><i
+                        class="devicon-typescript-plain"
+                        aria-hidden="true"
+                      ></i>
+                      TypeScript</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="devicon-php-plain" aria-hidden="true"></i> PHP
+                      / Laravel</span
+                    >
+                    <span class="tech-chip"
+                      ><i
+                        class="devicon-postgresql-plain"
+                        aria-hidden="true"
+                      ></i>
+                      PostgreSQL</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="devicon-bash-plain" aria-hidden="true"></i>
+                      Bash / Linux</span
+                    >
+                  </div>
+                </div>
+
+                <div class="tech-group">
+                  <div class="tech-group-title">Protocoles & Observabilité</div>
+                  <div class="tech-chips">
+                    <span class="tech-chip"
+                      ><i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                      QUIC</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="fa-solid fa-lock" aria-hidden="true"></i> TLS
+                      1.3</span
+                    >
+                    <span class="tech-chip"
+                      ><i
+                        class="fa-solid fa-wave-square"
+                        aria-hidden="true"
+                      ></i>
+                      OpenTelemetry (OTel)</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="fa-solid fa-key" aria-hidden="true"></i>
+                      SPAKE2</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="devicon-redis-plain" aria-hidden="true"></i>
+                      Redis</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="devicon-docker-plain" aria-hidden="true"></i>
+                      Docker</span
+                    >
+                  </div>
+                </div>
+
+                <div class="tech-group">
+                  <div class="tech-group-title">DevTools, AI & Web</div>
+                  <div class="tech-chips">
+                    <span class="tech-chip"
+                      ><i class="fa-solid fa-robot" aria-hidden="true"></i> MCP
+                      (Model Context Protocol)</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="fa-solid fa-terminal" aria-hidden="true"></i>
+                      CLI Tooling</span
+                    >
+                    <span class="tech-chip"
+                      ><i class="devicon-vuejs-plain" aria-hidden="true"></i>
+                      Vue.js 3</span
+                    >
+                    <span class="tech-chip"
+                      ><i
+                        class="fa-solid fa-shield-halved"
+                        aria-hidden="true"
+                      ></i>
+                      SSRF Protection</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Systems & Pinned Projects Section -->
+      <section
+        id="projects"
+        class="section section__projects"
+        aria-labelledby="projects-heading"
+      >
+        <div class="section-container">
+          <div class="section-header reveal-on-scroll">
+            <span class="section-subtitle">Dépôts & Systèmes Clés</span>
+            <h2 id="projects-heading">Travaux d'Ingénierie & Open Source</h2>
+            <p class="section-intro">
+              Dépôts GitHub récents et outils développeurs conçus sous
+              contraintes strictes de performance, de concurrence et de
+              sécurité.
+            </p>
+          </div>
+
+          <div class="projects-grid">
+            <!-- Project 1: walspool (Amber) -->
+            <article
+              class="project-card project-card--featured reveal-on-scroll stagger-1"
+            >
+              <div class="project-header">
+                <div class="project-title-group">
+                  <span class="project-type">Système & Télémétrie</span>
+                  <h3>walspool</h3>
+                </div>
+                <span class="project-lang-badge">
+                  <span class="lang-dot lang-dot--go"></span> Go
+                </span>
+              </div>
+
+              <p class="project-summary">
+                Moteur in-process de Write-Ahead Log (WAL) et concentrateur
+                OpenTelemetry en Go. Absorbe les rafales de télémétrie sur
+                disque en cas de coupure amont avec zéro allocation sur le
+                chemin chaud pour éliminer les risques d'OOM.
+              </p>
+
+              <ul class="project-features">
+                <li>
+                  Double buffer circulaire en mémoire et segmentation disque
+                  mmap
+                </li>
+                <li>
+                  Rejeu crash-résilient sub-milliseconde sans pression sur le GC
+                </li>
+                <li>
+                  Prévient les effondrements de service sous pics d'ingestion
+                  massifs
+                </li>
+              </ul>
+
+              <div class="project-footer">
+                <div class="project-tags">
+                  <span class="project-tag">Go</span>
+                  <span class="project-tag">Zero-Alloc</span>
+                  <span class="project-tag">OpenTelemetry</span>
+                  <span class="project-tag">WAL</span>
+                  <span class="project-tag">High-Throughput</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/YohannHommet/walspool"
+                    class="btn btn-outline btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    GitHub
+                  </a>
+                  <a
+                    href="https://yohannhommet.github.io/walspool/"
+                    class="btn btn-primary btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fa-solid fa-book" aria-hidden="true"></i> Docs &
+                    Benchmarks
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 2: wisp (Sage Mint) -->
+            <article
+              class="project-card project-card--featured project-card--mint spotlight-card--mint reveal-on-scroll stagger-2"
+            >
+              <div class="project-header">
+                <div class="project-title-group">
+                  <span class="project-type project-type--mint"
+                    >Protocole Réseau P2P</span
+                  >
+                  <h3>wisp</h3>
+                </div>
+                <span class="project-lang-badge">
+                  <span class="lang-dot lang-dot--rust"></span> Rust
+                </span>
+              </div>
+
+              <p class="project-summary">
+                Moteur de transfert direct pair-à-pair chiffré sur QUIC et TLS
+                1.3 éphémère. Authentification mutuelle par mot de passe via
+                SPAKE2 (RFC 9382) et intégrité de flux validée par BLAKE3
+                streaming.
+              </p>
+
+              <ul class="project-features">
+                <li>
+                  Transport direct 1-RTT chiffré via QUIC (sans transit serveur
+                  non sécurisé)
+                </li>
+                <li>
+                  Échange de clé authentifié par mot de passe fort (SPAKE2)
+                </li>
+                <li>
+                  Relais de rendez-vous aveugle et sans état propulsé par Axum
+                </li>
+              </ul>
+
+              <div class="project-footer">
+                <div class="project-tags">
+                  <span class="project-tag">Rust</span>
+                  <span class="project-tag">QUIC</span>
+                  <span class="project-tag">TLS 1.3</span>
+                  <span class="project-tag">SPAKE2</span>
+                  <span class="project-tag">BLAKE3</span>
+                  <span class="project-tag">Axum</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/YohannHommet/wisp"
+                    class="btn btn-outline btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    GitHub
+                  </a>
+                  <a
+                    href="https://yohannhommet.github.io/wisp/"
+                    class="btn btn-secondary-accent btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    Démo & Explorer
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 3: argus (Amber) -->
+            <article class="project-card reveal-on-scroll stagger-3">
+              <div class="project-header">
+                <div class="project-title-group">
+                  <span class="project-type">Observabilité Agentique</span>
+                  <h3>argus</h3>
+                </div>
+                <span class="project-lang-badge">
+                  <span class="lang-dot lang-dot--go"></span> Go / OTel
+                </span>
+              </div>
+
+              <p class="project-summary">
+                Backend d'ingestion et explorateur de sessions OTLP pour Claude
+                Code et agents autonomes. Visualise la consommation de tokens,
+                les latences d'outils et l'arbre d'appels des sous-agents en
+                temps réel.
+              </p>
+
+              <ul class="project-features">
+                <li>
+                  Traçage précis de l'arbre de décision et graphe d'appels des
+                  agents
+                </li>
+                <li>Ventilation des coûts, tokens et latences par étape</li>
+                <li>
+                  Stockage temporel haute performance optimisé avec PostgreSQL
+                </li>
+              </ul>
+
+              <div class="project-footer">
+                <div class="project-tags">
+                  <span class="project-tag">OpenTelemetry</span>
+                  <span class="project-tag">Claude Code</span>
+                  <span class="project-tag">AI DevTools</span>
+                  <span class="project-tag">PostgreSQL</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/YohannHommet/argus"
+                    class="btn btn-outline btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 4: pg-lens-mcp (Sage Mint) -->
+            <article
+              class="project-card project-card--mint spotlight-card--mint reveal-on-scroll stagger-4"
+            >
+              <div class="project-header">
+                <div class="project-title-group">
+                  <span class="project-type project-type--mint"
+                    >Agent Tooling & Sécurité</span
+                  >
+                  <h3>pg-lens-mcp</h3>
+                </div>
+                <span class="project-lang-badge">
+                  <span class="lang-dot lang-dot--ts"></span> TypeScript
+                </span>
+              </div>
+
+              <p class="project-summary">
+                Serveur Model Context Protocol (MCP) pour bases PostgreSQL.
+                Permet aux agents de code d'introspecter les schémas, catalogues
+                et tables dans un bac à sable sécurisé sans fuite de privilèges.
+              </p>
+
+              <ul class="project-features">
+                <li>
+                  Découverte de schéma en lecture stricte & introspection ciblée
+                </li>
+                <li>
+                  Périmètre de requêtage isolé réduisant la surface d'attaque
+                </li>
+                <li>
+                  Compatible avec Claude Code, Zed et les clients MCP standards
+                </li>
+              </ul>
+
+              <div class="project-footer">
+                <div class="project-tags">
+                  <span class="project-tag">MCP</span>
+                  <span class="project-tag">PostgreSQL</span>
+                  <span class="project-tag">AI Agents</span>
+                  <span class="project-tag">TypeScript</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/YohannHommet/pg-lens-mcp"
+                    class="btn btn-outline btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    GitHub
+                  </a>
+                  <a
+                    href="https://www.npmjs.com/package/pg-lens-mcp"
+                    class="btn btn-outline btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fa-brands fa-npm" aria-hidden="true"></i>
+                    Package npm
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 5: Unfurlit (Amber) -->
+            <article class="project-card reveal-on-scroll stagger-5">
+              <div class="project-header">
+                <div class="project-title-group">
+                  <span class="project-type">API Sécurisée & SaaS</span>
+                  <h3>Unfurlit</h3>
+                </div>
+                <span class="project-lang-badge">
+                  <span class="lang-dot lang-dot--next"></span> Next.js / Redis
+                </span>
+              </div>
+
+              <p class="project-summary">
+                API d'extraction de métadonnées Open Graph et génération de cartes de prévisualisation d'URLs durcie contre les attaques SSRF. Valide chaque redirection saut par saut pour bloquer l'accès aux sous-réseaux privés et métadonnées cloud.
+              </p>
+
+              <ul class="project-features">
+                <li>
+                  Validation IP saut par saut protégeant contre le DNS rebinding
+                </li>
+                <li>Mise en cache Redis avec en-têtes X-Cache explicites</li>
+                <li>
+                  Service SaaS en production avec quotas d'API et réponses JSON sub-100ms
+                </li>
+              </ul>
+
+              <div class="project-footer">
+                <div class="project-tags">
+                  <span class="project-tag">Next.js</span>
+                  <span class="project-tag">TypeScript</span>
+                  <span class="project-tag">SSRF Protection</span>
+                  <span class="project-tag">Redis</span>
+                  <span class="project-tag">Open Graph API</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://unfurlit.vercel.app/"
+                    class="btn btn-primary btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i
+                      class="fa-solid fa-arrow-up-right-from-square"
+                      aria-hidden="true"
+                    ></i>
+                    Service Live
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 6: LinkBounty (Sage Mint) -->
+            <article
+              class="project-card project-card--mint spotlight-card--mint reveal-on-scroll stagger-6"
+            >
+              <div class="project-header">
+                <div class="project-title-group">
+                  <span class="project-type project-type--mint"
+                    >Concurrence & Audit Réseau</span
+                  >
+                  <h3>LinkBounty</h3>
+                </div>
+                <span class="project-lang-badge">
+                  <span class="lang-dot lang-dot--go"></span> Go
+                </span>
+              </div>
+
+              <p class="project-summary">
+                Vérificateur de liens brisés concurrent pour sites web en pur
+                Go. Crawle et analyse des milliers de liens internes et externes
+                en parallèle via un pool de goroutines calibré.
+              </p>
+
+              <ul class="project-features">
+                <li>
+                  Pool de workers concurrents avec gestion automatisée des
+                  fallbacks anti-bots
+                </li>
+                <li>
+                  Protection SSRF intégrée contre le ciblage d'adresses IP
+                  privées
+                </li>
+                <li>
+                  Génération de rapports d'audit exhaustifs et partageables
+                </li>
+              </ul>
+
+              <div class="project-footer">
+                <div class="project-tags">
+                  <span class="project-tag">Go</span>
+                  <span class="project-tag">Goroutines</span>
+                  <span class="project-tag">Concurrency</span>
+                  <span class="project-tag">Network Audit</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/YohannHommet/linkbounty"
+                    class="btn btn-outline btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Timeline Section -->
+      <section
+        id="experience"
+        class="section section__experience"
+        aria-labelledby="experience-heading"
+      >
+        <div class="section-container">
+          <div class="section-header reveal-on-scroll">
+            <span class="section-subtitle">Parcours Professionnel</span>
+            <h2 id="experience-heading">Expérience & Réalisations</h2>
+            <p class="section-intro">
+              Historique de conception de plateformes logicielles, découpage
+              d'architectures et direction technique.
+            </p>
+          </div>
+
+          <div class="timeline">
+            <!-- Item 1: Ignimission -->
+            <div class="timeline-item reveal-on-scroll stagger-1">
               <div class="timeline-dot"></div>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-date">Septembre 2021 - Mars 2022</div>
+              <span class="timeline-date">Mars 2022 — Présent</span>
               <div class="experience-card">
-                <h3 class="job-title">Développeur Fullstack</h3>
-                <p class="company">Klaxo • Paris</p>
+                <div class="job-header">
+                  <h3 class="job-title">Software Engineer Fullstack</h3>
+                  <span class="company">Ignimission · Angers & Remote</span>
+                </div>
                 <div class="job-description">
-                  <p>Développement d'APIs robustes avec Symfony et interfaces utilisateur avec Angular, en appliquant
-                    les principes d'architecture hexagonale et CQS.</p>
+                  Conception, optimisation et refonte d'applications
+                  d'entreprise complexes manipulant de forts volumes de données
+                  métier.
                 </div>
                 <ul class="achievements">
-                  <li>Développement d'APIs Symfony avec Architecture Hexagonale et CQS</li>
-                  <li>Création et optimisation de composants front-end Angular performants</li>
-                  <li>Mise en place des méthodes Agiles (Scrum, sprints, rétrospectives)</li>
-                  <li>Garantie de la maintenabilité et modularité du code</li>
+                  <li>
+                    Découpage progressif d'un backend monolithique en
+                    microservices ciblés et passerelle API Gateway (Loopback)
+                    pour fiabiliser les flux.
+                  </li>
+                  <li>
+                    Conception et maintenance d'architectures frontend
+                    modulaires en Vue.js (Vue 2 et Vue 3) avec bibliothèque de
+                    composants partagée.
+                  </li>
+                  <li>
+                    Optimisation des requêtes PostgreSQL et stratégies de cache
+                    pour garantir des temps de réponse sous les 100ms.
+                  </li>
+                  <li>
+                    Mise en place de pratiques d'ingénierie modernes : Vite,
+                    Pinia, CI/CD et typage TypeScript strict.
+                  </li>
+                </ul>
+                <div class="tech-stack">
+                  <span class="tech-badge">Laravel</span>
+                  <span class="tech-badge">Vue.js 3</span>
+                  <span class="tech-badge">PostgreSQL</span>
+                  <span class="tech-badge">API Gateway</span>
+                  <span class="tech-badge">Microservices</span>
+                  <span class="tech-badge">TypeScript</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 2: Klaxo -->
+            <div class="timeline-item reveal-on-scroll stagger-2">
+              <div class="timeline-dot"></div>
+              <span class="timeline-date">Septembre 2021 — Mars 2022</span>
+              <div class="experience-card">
+                <div class="job-header">
+                  <h3 class="job-title">Développeur Fullstack</h3>
+                  <span class="company">Klaxo · Paris & Remote</span>
+                </div>
+                <div class="job-description">
+                  Développement d'APIs métier robustes et interfaces
+                  utilisateurs dynamiques sous principes d'architecture
+                  logicielle rigoureux.
+                </div>
+                <ul class="achievements">
+                  <li>
+                    Mise en œuvre des patterns d'Architecture Hexagonale et
+                    séparation CQS (Command Query Separation) sur Symfony.
+                  </li>
+                  <li>
+                    Création de composants frontend Angular performants et
+                    testés unitairement.
+                  </li>
+                  <li>
+                    Pratique active des cycles Agile Scrum : découpage de
+                    sprints, code reviews et rétrospectives d'équipe.
+                  </li>
                 </ul>
                 <div class="tech-stack">
                   <span class="tech-badge">Symfony</span>
                   <span class="tech-badge">Angular</span>
                   <span class="tech-badge">Architecture Hexagonale</span>
-                  <span class="tech-badge">Agile/Scrum</span>
                   <span class="tech-badge">CQS</span>
+                  <span class="tech-badge">PHP</span>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
-            <div class="timeline-marker">
+            <!-- Item 3: O'Clock -->
+            <div class="timeline-item reveal-on-scroll stagger-3">
               <div class="timeline-dot"></div>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-date">Mars 2021 - Septembre 2021</div>
+              <span class="timeline-date">Mars 2021 — Septembre 2021</span>
               <div class="experience-card">
-                <h3 class="job-title">Formation Développeur Web</h3>
-                <p class="company">École O'Clock • Télé présentiel</p>
-                <div class="job-description">
-                  <p>Formation intensive en développement fullstack avec spécialisation Symfony. Transition
-                    professionnelle réussie vers le développement web.</p>
+                <div class="job-header">
+                  <h3 class="job-title">
+                    Formation Développeur Web & Web Mobile
+                  </h3>
+                  <span class="company">École O'Clock · Téléprésentiel</span>
                 </div>
-                <ul class="achievements">
-                  <li>Formation intensive fullstack (HTML, CSS, JavaScript, PHP, MySQL, Symfony)</li>
-                  <li>Projet final : Application web Symfony développée en équipe avec méthodologies Agiles</li>
-                  <li>Apprentissage autodidacte préalable (HTML, CSS, JavaScript, PHP, MySQL)</li>
-                  <li>Certification RNCP niveau 5 - Développeur Web et Web Mobile</li>
-                </ul>
+                <div class="job-description">
+                  Cursus immersif intensif (700h+) couvrant les fondamentaux du
+                  web et l'ingénierie fullstack. Titre certifié RNCP Niveau 5.
+                </div>
                 <div class="tech-stack">
-                  <span class="tech-badge">HTML/CSS</span>
                   <span class="tech-badge">JavaScript</span>
                   <span class="tech-badge">PHP</span>
                   <span class="tech-badge">MySQL</span>
-                  <span class="tech-badge">Symfony</span>
+                  <span class="tech-badge">Architecture MVC</span>
+                  <span class="tech-badge">Git</span>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="timeline-item" data-aos="fade-up" data-aos-delay="600">
-            <div class="timeline-marker">
+            <!-- Item 4: Direction d'entreprise -->
+            <div class="timeline-item reveal-on-scroll stagger-4">
               <div class="timeline-dot"></div>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-date">Juillet 2012 - Novembre 2016</div>
+              <span class="timeline-date">2012 — 2016</span>
               <div class="experience-card">
-                <h3 class="job-title">Gérant de Restaurant</h3>
-                <p class="company">La Pourtanelle • Saint Jean d'Alcas</p>
+                <div class="job-header">
+                  <h3 class="job-title">
+                    Direction d'Établissement & Gestion Opérationnelle
+                  </h3>
+                  <span class="company">La Pourtanelle · France</span>
+                </div>
                 <div class="job-description">
-                  <p>Gestion complète d'un établissement de restauration, développant des compétences en leadership,
-                    gestion de projet et optimisation opérationnelle.</p>
+                  Direction complète d'entreprise, développant des réflexes
+                  pragmatiques de gestion de flux, d'optimisation des coûts et
+                  de résilience opérationnelle sous forte cadence.
                 </div>
-                <ul class="achievements">
-                  <li>Ouverture et gestion complète d'un restaurant (opérations, personnel, clients)</li>
-                  <li>Optimisation des processus et mise en place de mesures d'optimisation des coûts</li>
-                  <li>Résolution efficace de problèmes dans un environnement dynamique et exigeant</li>
-                  <li>Amélioration de l'efficacité opérationnelle et de la rentabilité</li>
-                </ul>
                 <div class="tech-stack">
-                  <span class="tech-badge">Management</span>
-                  <span class="tech-badge">Gestion de projet</span>
                   <span class="tech-badge">Leadership</span>
-                  <span class="tech-badge">Optimisation</span>
-                  <span class="tech-badge">Résolution de problèmes</span>
+                  <span class="tech-badge">Gestion Opérationnelle</span>
+                  <span class="tech-badge">Optimisation de Process</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="projects" class="section section__projects animate-on-scroll" aria-labelledby="projects-heading">
-      <div class="section-container">
-        <div class="section-header">
-          <span class="section-subtitle">Mon travail</span>
-          <h2 id="projects-heading">Projets en vedette</h2>
-        </div>
-        <div class="projects-grid">
-          <article class="project-card">
-            <div class="project-image">
-              <img src="assets/img/meow-development.png"
-                alt="Meow Development - Site web d'une entreprise de développement web présentant un design moderne et des fonctionnalités"
-                loading="eager" fetchpriority="high" width="800" height="450">
-              <div class="project-overlay">
-                <h3>Meow Development</h3>
-                <p>Site web d'entreprise de développement web</p>
-                <div class="project-links">
-                  <a href="https://meow-development.netlify.app" class="btn btn-outline" target="_blank"
-                    rel="noopener noreferrer" aria-label="Voir la démo en direct de Meow Development">Démo en direct</a>
-                  <a href="https://github.com/YohannHommet/Meow_Development" class="btn btn-outline" target="_blank"
-                    rel="noopener noreferrer" aria-label="Voir le code source sur GitHub de Meow Development">GitHub</a>
+      <!-- Contact Section -->
+      <section
+        id="contact"
+        class="section section__contact"
+        aria-labelledby="contact-heading"
+      >
+        <div class="section-container">
+          <div class="section-header reveal-on-scroll">
+            <span class="section-subtitle">Communication Directe</span>
+            <h2 id="contact-heading">Travaillons Ensemble</h2>
+            <p class="section-intro">
+              Disponible pour échanger sur des défis d'architecture distribuée,
+              d'ingénierie de protocoles ou de conception d'outillage
+              développeur.
+            </p>
+          </div>
+
+          <div class="contact-layout">
+            <div class="contact-info reveal-on-scroll stagger-1">
+              <div class="contact-card">
+                <h3 class="footer-title">Coordonnées</h3>
+                <a
+                  href="mailto:yohann.hommet@outlook.com"
+                  class="contact-method"
+                >
+                  <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                  <span>yohann.hommet@outlook.com</span>
+                </a>
+                <a
+                  href="https://github.com/YohannHommet"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="contact-method"
+                >
+                  <i class="fa-brands fa-github" aria-hidden="true"></i>
+                  <span>github.com/YohannHommet</span>
+                </a>
+                <a
+                  href="https://linkedin.com/in/yohann-hommet"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="contact-method"
+                >
+                  <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                  <span>linkedin.com/in/yohann-hommet</span>
+                </a>
+                <div class="contact-method">
+                  <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                  <span>Cholet, France · Remote possible</span>
                 </div>
               </div>
             </div>
-          </article>
-          <article class="project-card">
-            <div class="project-image">
-              <img src="assets/img/cvyber-snake.png"
-                alt="Cyber Snake - Un jeu de serpent interactif à thème cyberpunk construit avec des technologies web modernes"
-                loading="lazy" width="800" height="450">
-              <div class="project-overlay">
-                <h3>Cyber Snake</h3>
-                <p>Jeu de serpent cyberpunk</p>
-                <div class="project-links">
-                  <a href="https://snake-cyberpunk.netlify.app/" class="btn btn-outline" target="_blank"
-                    rel="noopener noreferrer" aria-label="Voir la démo en direct de Cyber Snake">Démo en direct</a>
-                  <a href="https://github.com/YohannHommet/snake_ai" class="btn btn-outline" target="_blank"
-                    rel="noopener noreferrer" aria-label="Voir le code source sur GitHub de Cyber Snake">GitHub</a>
-                </div>
+
+            <form
+              id="contact-form"
+              class="contact-form reveal-on-scroll stagger-2"
+              netlify
+              method="POST"
+              aria-labelledby="contact-heading"
+            >
+              <input type="hidden" name="form-name" value="contact-form" />
+              <div class="form-group">
+                <label for="name" class="form-label">Nom / Organisation</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  placeholder="Ex: Jean Dupont"
+                  aria-required="true"
+                />
               </div>
+              <div class="form-group">
+                <label for="email" class="form-label"
+                  >Email professionnel</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="nom@entreprise.com"
+                  aria-required="true"
+                />
+              </div>
+              <div class="form-group">
+                <label for="message" class="form-label"
+                  >Message / Description du besoin</label
+                >
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  placeholder="Partagez le contexte de votre projet ou vos questions..."
+                  aria-required="true"
+                ></textarea>
+              </div>
+              <button class="btn btn-primary btn-primary--block" type="submit">
+                Transmettre le message
+                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <a
+              href="#home"
+              class="brand-wrapper"
+              aria-label="Retour à l'accueil"
+            >
+              <span class="logo">YH<span class="logo-dot"></span></span>
+            </a>
+            <p class="footer-tagline">
+              Ingénieur logiciel spécialisé dans les systèmes distribués,
+              protocoles réseaux chiffrés et l'outillage développeur.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="footer-title">Navigation</h3>
+            <ul class="footer-links">
+              <li><a href="#about" class="footer-link-item">Philosophie</a></li>
+              <li>
+                <a href="#projects" class="footer-link-item"
+                  >Systèmes & Projets</a
+                >
+              </li>
+              <li>
+                <a href="#experience" class="footer-link-item">Parcours</a>
+              </li>
+              <li><a href="#contact" class="footer-link-item">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="footer-title">Réseaux & Code</h3>
+            <div class="footer-social">
+              <a
+                href="https://github.com/YohannHommet"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                aria-label="GitHub"
+              >
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://linkedin.com/in/yohann-hommet"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                aria-label="LinkedIn"
+              >
+                <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+              </a>
+              <a
+                href="mailto:yohann.hommet@outlook.com"
+                class="social-link"
+                aria-label="Email"
+              >
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+              </a>
             </div>
-          </article>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <section id="contact" class="section section__contact animate-on-scroll" aria-labelledby="contact-heading">
-      <div class="section-container">
-        <div class="section-header">
-          <span class="section-subtitle">Entrer en contact</span>
-          <h2 id="contact-heading">Travaillons ensemble</h2>
-        </div>
-        <form id="contact-form" class="contact-form" netlify method="POST" aria-labelledby="contact-heading">
-          <input type="hidden" name="form-name" value="contact-form">
-          <div class="form-group">
-            <label for="name" class="sr-only">Votre nom</label>
-            <input type="text" id="name" name="name" required placeholder="Votre nom" aria-required="true">
-          </div>
-          <div class="form-group">
-            <label for="email" class="sr-only">Votre email</label>
-            <input type="email" id="email" name="email" required placeholder="Votre email" aria-required="true">
-          </div>
-          <div class="form-group">
-            <label for="message" class="sr-only">Votre message</label>
-            <textarea id="message" name="message" required placeholder="Votre message" aria-required="true"></textarea>
-          </div>
-          <button class="btn btn-primary btn-primary--block" type="submit">Envoyer le message</button>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer" role="contentinfo">
-    <div class="footer-container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <a href="#home" class="logo" aria-label="Retour à l'accueil">YH</a>
-          <p class="footer-tagline">Développeur Full Stack spécialisé dans la création d'expériences numériques exceptionnelles.</p>
-        </div>
-        <div class="footer-nav">
-          <h3 class="footer-title">Navigation</h3>
-          <ul class="footer-links">
-            <li><a href="#home" class="footer-link-item">Accueil</a></li>
-            <li><a href="#about" class="footer-link-item">À propos</a></li>
-            <li><a href="#experience" class="footer-link-item">Expérience</a></li>
-            <li><a href="#projects" class="footer-link-item">Projets</a></li>
-            <li><a href="#contact" class="footer-link-item">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-social-wrapper">
-          <h3 class="footer-title">Suivez-moi</h3>
-          <div class="footer-social">
-            <a href="https://github.com/YohannHommet" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
-              <i class="fa-brands fa-github" aria-hidden="true"></i>
-            </a>
-            <a href="https://linkedin.com/in/yohann-hommet" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
-              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-            </a>
-            <a href="mailto:yohann.hommet@outlook.com" class="social-link" aria-label="Email">
-              <i class="fas fa-envelope" aria-hidden="true"></i>
-            </a>
+        <div class="footer-bottom">
+          <p class="footer-copyright">
+            &copy; <span id="current-year"></span> Yohann Hommet. Tous droits
+            réservés.
+          </p>
+          <div class="footer-status-pill">
+            <span class="footer-status-dot"></span>
+            <span>Systèmes nominaux · Hébergé sur Netlify</span>
           </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p class="footer-copyright">&copy; <span id="current-year"></span> Yohann Hommet. Tous droits réservés.</p>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script type="module" src="assets/js/script.js"></script>
-  <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Yohann Hommet | Développeur Full Stack",
-      "url": "https://yohann-hommet.netlify.app/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://yohann-hommet.netlify.app/?s={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Yohann Hommet",
-      "jobTitle": "Développeur Full Stack",
-      "url": "https://yohann-hommet.netlify.app/",
-      "sameAs": [
-        "https://github.com/YohannHommet",
-        "https://linkedin.com/in/yohann-hommet"
-      ],
-      "knowsAbout": ["Vue.js", "Laravel", "JavaScript", "PHP", "TypeScript", "Docker"],
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Freelance"
-      }
-    }
-  ]
-  </script>
-  <a href="#home" id="back-to-top" class="back-to-top" aria-label="Retour en haut de page">
-    <i class="fas fa-arrow-up" aria-hidden="true"></i>
-  </a>
-</body>
+    <script type="module" src="assets/js/script.js"></script>
 
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Yohann Hommet · Systems, Network Protocols & Developer Tooling",
+          "url": "https://yohann-hommet.netlify.app/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://yohann-hommet.netlify.app/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Yohann Hommet",
+          "jobTitle": "Software Engineer",
+          "url": "https://yohann-hommet.netlify.app/",
+          "sameAs": [
+            "https://github.com/YohannHommet",
+            "https://linkedin.com/in/yohann-hommet"
+          ],
+          "knowsAbout": [
+            "Go",
+            "Rust",
+            "Distributed Systems",
+            "QUIC",
+            "TLS 1.3",
+            "SPAKE2",
+            "OpenTelemetry",
+            "Model Context Protocol",
+            "TypeScript",
+            "Vue.js",
+            "Laravel",
+            "PostgreSQL",
+            "Docker",
+            "Linux"
+          ],
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Ignimission"
+          }
+        }
+      ]
+    </script>
+
+    <a
+      href="#home"
+      id="back-to-top"
+      class="back-to-top"
+      aria-label="Retour en haut de page"
+    >
+      <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+    </a>
+  </body>
 </html>
